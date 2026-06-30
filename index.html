@@ -1,0 +1,4101 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>幼儿交通工具科普 H5</title>
+  <style>
+    :root {
+      --ink: #142033;
+      --muted: #6c8096;
+      --line: #dce8f3;
+      --soft-blue: #dff0ff;
+      --soft-green: #e8f7ef;
+      --soft-yellow: #fff0d6;
+      --soft-pink: #fff0f4;
+      --page-blue: #f0f6fd;
+      --deep-blue: #2071ad;
+      --orange: #ff8b35;
+      --purple: #7f68f4;
+      --green: #50c878;
+      --shadow: 0 16px 34px rgba(42, 93, 132, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, #eaf5ff 0%, #fff8ec 100%);
+      color: var(--ink);
+      font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+      padding: 20px;
+    }
+
+    button,
+    .tap {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .phone {
+      width: min(390px, calc(100vw - 24px));
+      height: min(844px, calc(100vh - 24px));
+      min-height: 680px;
+      position: relative;
+      overflow: hidden;
+      border: 3px solid #27252a;
+      border-radius: 40px;
+      background: var(--page-blue);
+      box-shadow: var(--shadow);
+    }
+
+    .phone::before {
+      content: none;
+    }
+
+    .speaker {
+      display: none;
+    }
+
+    .camera {
+      display: none;
+    }
+
+    .status {
+      height: 50px;
+      overflow: hidden;
+      background: #f5fafc;
+      position: relative;
+      z-index: 2;
+    }
+
+    .status img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+    }
+
+    .app {
+      height: calc(100% - 50px - 76px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .screen {
+      display: none;
+      height: 100%;
+      padding: 18px 24px 22px;
+      overflow-y: auto;
+      animation: rise 0.22s ease;
+      scrollbar-width: none;
+    }
+
+    .screen::-webkit-scrollbar {
+      display: none;
+    }
+
+    .screen.active {
+      display: block;
+    }
+
+    @keyframes rise {
+      from {
+        transform: translateY(8px);
+        opacity: 0.65;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin: 0;
+    }
+
+    h1 {
+      font-size: 29px;
+      line-height: 1.15;
+      margin-bottom: 8px;
+      letter-spacing: 0;
+    }
+
+    h2 {
+      font-size: 20px;
+      line-height: 1.2;
+    }
+
+    h3 {
+      font-size: 17px;
+      line-height: 1.2;
+    }
+
+    p {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    .top-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .mascot {
+      width: 60px;
+      height: 60px;
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+      border: 2px solid #f0ece6;
+      border-radius: 18px;
+      background: var(--soft-yellow);
+      font-size: 33px;
+    }
+
+    .mascot img {
+      width: 56px;
+      height: 56px;
+      object-fit: contain;
+    }
+
+    .back {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      min-height: 36px;
+      margin-bottom: 14px;
+      border: 0;
+      background: transparent;
+      color: var(--ink);
+      font: inherit;
+      font-size: 18px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .back::before {
+      content: "<";
+      width: 32px;
+      height: 32px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: #f6f3ef;
+      font-weight: 900;
+    }
+
+    .sticky-back {
+      position: sticky;
+      top: -18px;
+      z-index: 12;
+      display: flex;
+      align-items: center;
+      min-height: 58px;
+      margin: -18px -24px 14px;
+      padding: 18px 24px 4px;
+      background: rgba(255, 253, 250, 0.96);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(230, 227, 222, 0.75);
+    }
+
+    .sticky-back .back {
+      margin-bottom: 0;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .card,
+    .feature-card,
+    .info-card,
+    .game-card,
+    .option,
+    .reward-card {
+      border: 2px solid var(--line);
+      border-radius: 24px;
+      background: #fff;
+    }
+
+    .card,
+    .game-card,
+    .option,
+    .nav-item,
+    .primary-btn,
+    .chip,
+    .memory-card,
+    .puzzle-piece,
+    .diff-zone {
+      cursor: pointer;
+      transition: transform 0.16s ease, background 0.16s ease, border-color 0.16s ease, box-shadow 0.16s ease;
+    }
+
+    .card:active,
+    .game-card:active,
+    .option:active,
+    .primary-btn:active,
+    .chip:active,
+    .memory-card:active,
+    .puzzle-piece:active,
+    .diff-zone:active {
+      transform: scale(0.97);
+    }
+
+    .card {
+      min-height: 128px;
+      padding: 17px 10px 14px;
+      display: grid;
+      align-content: center;
+      justify-items: center;
+      text-align: center;
+      box-shadow: 0 10px 22px rgba(42, 93, 132, 0.08);
+    }
+
+    .card.blue {
+      background: var(--soft-blue);
+    }
+
+    .card.yellow {
+      background: var(--soft-yellow);
+    }
+
+    .card.green {
+      background: var(--soft-green);
+    }
+
+    .card.pink {
+      background: var(--soft-pink);
+    }
+
+    .icon {
+      width: 76px;
+      height: 76px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 8px;
+      border-radius: 14px;
+      background: transparent;
+      font-size: 45px;
+    }
+
+    .icon img,
+    .thumb img,
+    .vehicle-img,
+    .mini-vehicle {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .vehicle-img {
+      max-width: 100%;
+      max-height: 100%;
+    }
+
+    .card-title {
+      font-size: 17px;
+      font-weight: 900;
+    }
+
+    .home-screen {
+      padding: 16px 22px 22px;
+      background: var(--page-blue);
+    }
+
+    .hero-banner {
+      min-height: 0;
+      aspect-ratio: 553 / 250;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 24px;
+      padding: 0;
+      border-radius: 30px;
+      background: url("images/hero-traffic.png") center / cover no-repeat;
+      box-shadow: 0 16px 30px rgba(54, 129, 183, 0.16);
+      cursor: pointer;
+    }
+
+    .hero-banner::before,
+    .hero-banner::after {
+      content: none;
+    }
+
+    .hero-art {
+      display: block;
+      width: 100%;
+      aspect-ratio: 553 / 250;
+      object-fit: cover;
+      border-radius: 30px;
+    }
+
+    .hero-banner > * {
+      display: none;
+    }
+
+    .hero-banner::before {
+      width: 118px;
+      height: 28px;
+      left: -20px;
+      bottom: 18px;
+      box-shadow:
+        48px -10px 0 8px rgba(255, 255, 255, 0.86),
+        128px -2px 0 0 rgba(255, 255, 255, 0.8),
+        276px 8px 0 2px rgba(255, 255, 255, 0.78);
+    }
+
+    .hero-banner::after {
+      width: 86px;
+      height: 26px;
+      left: 18px;
+      top: 18px;
+      box-shadow:
+        232px 16px 0 0 rgba(255, 255, 255, 0.72),
+        382px 34px 0 -4px rgba(255, 255, 255, 0.7);
+    }
+
+    .hero-copy {
+      position: relative;
+      z-index: 3;
+      max-width: 160px;
+      padding-top: 34px;
+      color: #fff;
+      text-shadow: 0 2px 0 rgba(42, 116, 161, 0.12);
+    }
+
+    .hero-copy h1 {
+      margin-bottom: 4px;
+      font-size: 28px;
+      line-height: 1.05;
+      color: #fff;
+    }
+
+    .hero-copy p {
+      margin-bottom: 18px;
+      color: rgba(255, 255, 255, 0.96);
+      font-size: 18px;
+      font-weight: 900;
+      line-height: 1.1;
+    }
+
+    .hero-cta {
+      border: 0;
+      border-radius: 999px;
+      background: var(--orange);
+      color: #fff;
+      font: inherit;
+      font-size: 15px;
+      font-weight: 900;
+      padding: 10px 22px;
+      box-shadow: 0 8px 18px rgba(255, 139, 53, 0.28);
+      cursor: pointer;
+    }
+
+    .hero-world {
+      position: absolute;
+      right: 58px;
+      top: 74px;
+      width: 116px;
+      height: 116px;
+      border-radius: 50%;
+      background:
+        radial-gradient(ellipse at 34% 30%, #8ed76e 0 18px, transparent 19px),
+        radial-gradient(ellipse at 58% 42%, #8ed76e 0 22px, transparent 23px),
+        radial-gradient(ellipse at 42% 70%, #8ed76e 0 20px, transparent 21px),
+        linear-gradient(135deg, #67c8ff, #a6ebff);
+      border: 7px solid rgba(255, 255, 255, 0.98);
+      box-shadow:
+        0 0 0 16px rgba(255, 255, 255, 0.72),
+        inset -8px -10px 0 rgba(29, 132, 191, 0.12),
+        0 10px 22px rgba(39, 133, 184, 0.18);
+      z-index: 2;
+    }
+
+    .hero-world::before,
+    .hero-world::after {
+      content: "";
+      position: absolute;
+      top: 44px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #7a3a25;
+      box-shadow: 0 18px 0 -4px #ff8fa1;
+    }
+
+    .hero-world::before {
+      left: 34px;
+    }
+
+    .hero-world::after {
+      right: 34px;
+    }
+
+    .hero-smile {
+      position: absolute;
+      left: 50%;
+      top: 64px;
+      width: 24px;
+      height: 12px;
+      transform: translateX(-50%);
+      border-bottom: 4px solid #7a3a25;
+      border-radius: 0 0 24px 24px;
+    }
+
+    .hero-vehicle {
+      position: absolute;
+      z-index: 4;
+      object-fit: contain;
+      filter: drop-shadow(0 8px 8px rgba(40, 93, 120, 0.16));
+    }
+
+    .hero-vehicle.car {
+      width: 66px;
+      left: 168px;
+      top: 70px;
+      transform: rotate(-28deg);
+    }
+
+    .hero-vehicle.train {
+      width: 64px;
+      right: 132px;
+      top: 26px;
+      transform: rotate(6deg);
+    }
+
+    .hero-vehicle.plane {
+      width: 72px;
+      right: 30px;
+      top: 58px;
+      transform: rotate(-14deg);
+    }
+
+    .hero-vehicle.heli {
+      width: 68px;
+      left: 178px;
+      bottom: 26px;
+      transform: rotate(-12deg);
+    }
+
+    .hero-vehicle.ship {
+      width: 76px;
+      right: 18px;
+      bottom: 22px;
+    }
+
+    .hero-cloud {
+      position: absolute;
+      z-index: 3;
+      width: 78px;
+      height: 28px;
+      border-radius: 999px;
+      background: #fff;
+      opacity: 0.9;
+    }
+
+    .hero-cloud::before,
+    .hero-cloud::after {
+      content: "";
+      position: absolute;
+      bottom: 8px;
+      border-radius: 50%;
+      background: #fff;
+    }
+
+    .hero-cloud::before {
+      left: 12px;
+      width: 28px;
+      height: 28px;
+    }
+
+    .hero-cloud::after {
+      right: 14px;
+      width: 36px;
+      height: 36px;
+    }
+
+    .hero-cloud.small {
+      left: 42px;
+      top: 22px;
+      transform: scale(0.82);
+    }
+
+    .hero-cloud.large {
+      right: 32px;
+      top: 44px;
+      transform: scale(1.06);
+      opacity: 0.78;
+    }
+
+    .hero-star {
+      position: absolute;
+      z-index: 3;
+      color: #ffd34f;
+      font-size: 24px;
+      filter: drop-shadow(0 3px 0 rgba(255, 171, 41, 0.18));
+    }
+
+    .hero-star.one {
+      left: 166px;
+      top: 126px;
+    }
+
+    .hero-star.two {
+      right: 92px;
+      top: 22px;
+    }
+
+    .home-actions {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 28px;
+      margin-bottom: 18px;
+    }
+
+    .home-actions .card {
+      min-height: 150px;
+      border: 0;
+      border-radius: 34px;
+      box-shadow: none;
+    }
+
+    .home-actions .icon {
+      width: 86px;
+      height: 86px;
+      margin-bottom: 10px;
+      border-radius: 16px;
+      background: transparent;
+    }
+
+    .home-actions .icon img {
+      width: 100%;
+      height: 100%;
+    }
+
+    .home-feature {
+      position: relative;
+      min-height: 178px;
+      align-items: center;
+      padding: 28px 22px 18px;
+      margin-top: 20px;
+      gap: 20px;
+      border: 0;
+      border-radius: 28px;
+      background: #fff;
+      box-shadow: 0 14px 28px rgba(42, 93, 132, 0.09);
+    }
+
+    .home-feature::before {
+      content: "";
+      position: absolute;
+      top: 20px;
+      left: 62px;
+      width: 76px;
+      height: 12px;
+      border-radius: 999px;
+      background: rgba(66, 165, 245, 0.18);
+      transform: rotate(-8deg);
+    }
+
+    .home-feature .section-title {
+      color: #071326;
+      font-size: 23px;
+      margin-bottom: 16px;
+    }
+
+    .home-feature .section-title .dot {
+      display: none;
+    }
+
+    .home-feature .thumb {
+      width: 96px;
+      height: 96px;
+      border-radius: 16px;
+      background: #8fd0ff;
+      padding: 10px;
+    }
+
+    .home-feature h3 {
+      color: var(--deep-blue);
+      font-size: 23px;
+      margin-bottom: 8px;
+    }
+
+    .home-feature p {
+      color: var(--deep-blue);
+      font-size: 17px;
+      line-height: 1.35;
+      max-width: 178px;
+      padding-right: 34px;
+    }
+
+    .home-feature .sound {
+      position: absolute;
+      right: 18px;
+      bottom: 20px;
+      width: 42px;
+      height: 42px;
+      background: #74c4ff;
+      box-shadow: 0 8px 16px rgba(92, 174, 235, 0.25);
+    }
+
+    .home-feature .dots {
+      position: absolute;
+      right: 26px;
+      top: 40px;
+      display: flex;
+      gap: 7px;
+    }
+
+    .home-feature .dots span {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #bfe3ff;
+    }
+
+    .home-feature .dots span:first-child {
+      background: #5fafe9;
+    }
+
+    .home-feature .feature-mascot {
+      display: none;
+    }
+
+    .home-feature.result {
+      background: linear-gradient(135deg, #fffefd, #fff9ef);
+    }
+
+    .home-feature.result::before {
+      left: 58px;
+      background: rgba(255, 188, 91, 0.24);
+    }
+
+    .home-feature.result .thumb {
+      background: linear-gradient(180deg, #fff4de, #ffc579);
+    }
+
+    .home-feature.result p {
+      color: #be7c32;
+      font-size: 18px;
+      max-width: none;
+      padding-right: 0;
+    }
+
+    .feature-card {
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      min-height: 106px;
+      margin-top: 16px;
+      box-shadow: 0 8px 18px rgba(36, 34, 43, 0.06);
+    }
+
+    .feature-card .thumb {
+      width: 82px;
+      height: 68px;
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+      border-radius: 8px;
+      background: var(--soft-blue);
+      font-size: 42px;
+    }
+
+    .feature-card .sound {
+      margin-left: auto;
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border: 0;
+      border-radius: 50%;
+      background: #7fc4ff;
+      color: #fff;
+      font-size: 17px;
+    }
+
+    .list {
+      display: grid;
+      gap: 14px;
+    }
+
+    .game-card {
+      min-height: 112px;
+      padding: 14px;
+      display: grid;
+      grid-template-columns: 82px 1fr 22px;
+      align-items: center;
+      gap: 12px;
+      background: #fff;
+    }
+
+    .game-card .icon {
+      margin: 0;
+      width: 74px;
+      height: 74px;
+      color: #777;
+      background: transparent;
+    }
+
+    .arrow {
+      font-size: 32px;
+      font-weight: 300;
+      color: #222;
+    }
+
+    .info-card {
+      padding: 15px;
+      margin-bottom: 14px;
+      background: #fff;
+      box-shadow: 0 8px 18px rgba(36, 34, 43, 0.05);
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 11px;
+      font-weight: 900;
+      color: #424049;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #67b7ff;
+    }
+
+    .dot.green {
+      background: #7edc88;
+    }
+
+    .dot.orange {
+      background: #ffbd59;
+    }
+
+    .hero-bike {
+      display: grid;
+      grid-template-columns: 1fr 106px;
+      gap: 12px;
+      align-items: center;
+      padding: 14px;
+      margin-bottom: 14px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #f1f8ff, #fff7df);
+      border: 2px solid #ece6da;
+    }
+
+    .hero-bike .vehicle {
+      min-height: 116px;
+      display: grid;
+      place-items: center;
+      border-radius: 8px;
+      background: #fff;
+      padding: 12px;
+    }
+
+    .hero-bike .vehicle img {
+      width: 100%;
+      height: 118px;
+      object-fit: contain;
+    }
+
+    .listen-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      width: 100%;
+      border: 0;
+      border-radius: 8px;
+      background: #e8f3ff;
+      color: #3c79c7;
+      font-size: 14px;
+      font-weight: 900;
+      padding: 10px 8px;
+      cursor: pointer;
+    }
+
+    .skills {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .skill {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      min-height: 40px;
+      padding: 8px;
+      border-radius: 8px;
+      background: #f8faf8;
+      color: #4c4a55;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .quiz-image {
+      height: 206px;
+      display: grid;
+      place-items: center;
+      margin: 10px 0 18px;
+      border-radius: 8px;
+      background: linear-gradient(#cfeeff, #effbdd);
+      padding: 18px;
+      overflow: hidden;
+    }
+
+    .quiz-image img {
+      width: 76%;
+      height: 76%;
+      object-fit: contain;
+    }
+
+    .quiz-options {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 16px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .option {
+      min-height: 56px;
+      padding: 8px 4px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      font-weight: 900;
+      background: #fff;
+    }
+
+    .option strong {
+      display: block;
+      color: var(--purple);
+      font-size: 20px;
+      line-height: 1;
+    }
+
+    .toast {
+      position: absolute;
+      left: 24px;
+      right: 24px;
+      bottom: 88px;
+      z-index: 10;
+      transform: translateY(18px);
+      opacity: 0;
+      pointer-events: none;
+      transition: 0.22s ease;
+      padding: 14px 16px;
+      border-radius: 8px;
+      background: #27252a;
+      color: #fff;
+      font-size: 15px;
+      font-weight: 800;
+      text-align: center;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .success-screen {
+      min-height: 100%;
+      display: grid;
+      align-content: center;
+      text-align: center;
+      background:
+        radial-gradient(circle at 14% 12%, #ffe780 0 16px, transparent 17px),
+        radial-gradient(circle at 88% 18%, #9dd6ff 0 10px, transparent 11px),
+        radial-gradient(circle at 90% 78%, #ffb0b8 0 13px, transparent 14px),
+        linear-gradient(180deg, #fff9f1, #fff);
+      border-radius: 8px;
+      padding: 20px;
+    }
+
+    .success-screen h1 {
+      font-size: 40px;
+      margin-bottom: 10px;
+    }
+
+    .dog {
+      margin: 16px auto 10px;
+      width: 205px;
+      height: 205px;
+      display: grid;
+      place-items: center;
+      border-radius: 24px;
+      background: transparent;
+    }
+
+    .dog img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .answer-pill {
+      width: fit-content;
+      margin: 0 auto 14px;
+      padding: 10px 16px;
+      border-radius: 8px;
+      background: #fff;
+      color: #424049;
+      font-weight: 900;
+      box-shadow: 0 8px 18px rgba(36, 34, 43, 0.08);
+    }
+
+    .answer-pill span {
+      color: var(--green);
+    }
+
+    .reward-card {
+      padding: 14px 10px;
+      margin: 12px 0 18px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+      background: #fff;
+      box-shadow: 0 10px 22px rgba(36, 34, 43, 0.08);
+    }
+
+    .reward-item {
+      display: grid;
+      gap: 5px;
+      justify-items: center;
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .reward-item b {
+      font-size: 28px;
+    }
+
+    .primary-btn {
+      width: 100%;
+      min-height: 56px;
+      border: 0;
+      border-radius: 8px;
+      background: var(--purple);
+      color: #fff;
+      font-size: 20px;
+      font-weight: 900;
+      box-shadow: 0 9px 0 #654bdc;
+    }
+
+    .learn-card {
+      align-content: start;
+      min-height: 152px;
+      padding-top: 13px;
+    }
+
+    .learn-card .icon {
+      background: transparent;
+      border-radius: 0;
+    }
+
+    .learn-card .icon img {
+      width: 86px;
+      height: 86px;
+    }
+
+    .learn-card p {
+      margin-top: 3px;
+      font-size: 12px;
+      color: #595762;
+    }
+
+    .game-hero {
+      display: grid;
+      grid-template-columns: 1fr 110px;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .controller {
+      height: 88px;
+      display: grid;
+      place-items: center;
+      border-radius: 8px;
+      background: #f6f4ff;
+      font-size: 62px;
+    }
+
+    .history-summary {
+      display: grid;
+      grid-template-columns: 1fr 1px 1fr;
+      align-items: center;
+      gap: 18px;
+      min-height: 92px;
+      padding: 16px;
+      margin: 44px 0 10px;
+      border: 4px solid #e5e5e5;
+      border-radius: 26px;
+      background: #fff;
+    }
+
+    .history-stat {
+      display: grid;
+      justify-items: center;
+      gap: 6px;
+      font-weight: 900;
+      color: #3f3c45;
+    }
+
+    .history-stat b {
+      color: #48c4ac;
+      font-size: 28px;
+      line-height: 1;
+    }
+
+    .history-divider {
+      width: 1px;
+      height: 22px;
+      background: #dedede;
+    }
+
+    .calendar-card {
+      padding: 16px 14px 16px;
+      border: 4px solid #e5e5e5;
+      border-radius: 26px;
+      background: #fff;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .calendar-title {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .calendar-trigger {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border: 0;
+      background: transparent;
+      color: #151823;
+      font: inherit;
+      font-size: 20px;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .calendar-trigger span:first-child {
+      color: #151823;
+      font-size: inherit;
+    }
+
+    .calendar-trigger.open span:first-child {
+      color: #151823;
+    }
+
+    .calendar-trigger .calendar-arrow {
+      width: 11px;
+      height: 11px;
+      border-right: 4px solid #168bed;
+      border-bottom: 4px solid #168bed;
+      border-radius: 2px;
+      transform: rotate(-45deg);
+      transition: transform 0.18s ease;
+    }
+
+    .calendar-trigger.open .calendar-arrow {
+      transform: rotate(45deg);
+    }
+
+    .date-picker {
+      position: absolute;
+      left: 10px;
+      right: 10px;
+      top: 58px;
+      bottom: 14px;
+      z-index: 24;
+      display: none;
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(2px);
+      border-radius: 20px;
+      padding: 8px 10px;
+    }
+
+    .date-picker.show {
+      display: block;
+    }
+
+    .picker-wheel {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      height: 100%;
+      max-width: 260px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .picker-wheel::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 300px;
+      height: 52px;
+      transform: translate(-50%, -50%);
+      border-radius: 999px;
+      background: #eeeeee;
+      z-index: -1;
+    }
+
+    .picker-col {
+      height: 100%;
+      display: block;
+      overflow-y: auto;
+      scroll-snap-type: y mandatory;
+      scrollbar-width: none;
+      padding: 82px 0;
+    }
+
+    .picker-col::-webkit-scrollbar {
+      display: none;
+    }
+
+    .picker-option {
+      width: 100%;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border: 0;
+      background: transparent;
+      color: #b0b0b0;
+      font: inherit;
+      font-size: 20px;
+      font-weight: 500;
+      line-height: 1;
+      cursor: pointer;
+      opacity: 0.74;
+      scroll-snap-align: center;
+    }
+
+    .picker-option.selected {
+      color: #2b2b2f;
+      font-size: 20px;
+      font-weight: 900;
+      opacity: 1;
+    }
+
+    .picker-option.faded {
+      opacity: 0.25;
+    }
+
+    .weekday,
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      justify-items: center;
+      align-items: center;
+    }
+
+    .weekday {
+      margin-bottom: 10px;
+      color: #aaa;
+      font-size: 10px;
+      font-weight: 900;
+    }
+
+    .calendar-grid {
+      row-gap: 8px;
+      color: #9a9a9a;
+      font-size: 15px;
+    }
+
+    .day {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      font-weight: 800;
+    }
+
+    .day.done {
+      background: #61c7b6;
+      color: #fff;
+    }
+
+    .day.today {
+      border: 2px solid #61c7b6;
+      color: #61c7b6;
+      background: #fff;
+    }
+
+    .records-title {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin: 18px 0 12px;
+      font-size: 18px;
+      font-weight: 900;
+    }
+
+    .records-title::before {
+      content: "";
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #ffd15c;
+      box-shadow: inset -5px -3px 0 rgba(255, 170, 40, 0.5);
+    }
+
+    .record-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .record-card {
+      display: grid;
+      grid-template-columns: 84px 1px 1fr;
+      align-items: center;
+      min-height: 74px;
+      padding: 12px 14px;
+      border-radius: 8px;
+      background: #fafafa;
+    }
+
+    .record-date {
+      display: grid;
+      gap: 3px;
+      color: #3f3c45;
+      font-size: 15px;
+      font-weight: 800;
+    }
+
+    .record-date small {
+      color: #aaa;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .record-line {
+      width: 1px;
+      height: 42px;
+      background: #ececec;
+    }
+
+    .record-card p {
+      padding-left: 16px;
+      color: #55515c;
+      font-size: 15px;
+      font-weight: 700;
+    }
+
+    .diff-board {
+      display: grid;
+      gap: 12px;
+    }
+
+    .diff-card {
+      border: 2px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    .diff-scene {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      padding: 12px;
+      background: #eef9ff;
+      position: relative;
+    }
+
+    .bus {
+      position: relative;
+      height: 96px;
+      border: 3px solid #4c4a55;
+      border-radius: 18px 20px 10px 10px;
+      background: #fff9df;
+    }
+
+    .bus::before {
+      content: "";
+      position: absolute;
+      top: 16px;
+      left: 13px;
+      right: 13px;
+      height: 26px;
+      border-radius: 8px;
+      background: linear-gradient(90deg, #bfeaff 0 30%, transparent 30% 35%, #bfeaff 35% 62%, transparent 62% 67%, #bfeaff 67%);
+    }
+
+    .bus::after {
+      content: "";
+      position: absolute;
+      left: 15px;
+      right: 15px;
+      bottom: -10px;
+      height: 18px;
+      background:
+        radial-gradient(circle at 22px 9px, #303035 0 9px, transparent 10px),
+        radial-gradient(circle at calc(100% - 22px) 9px, #303035 0 9px, transparent 10px);
+    }
+
+    .bus.missing-light .light {
+      display: none;
+    }
+
+    .stripe {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 24px;
+      height: 8px;
+      background: #b7b2a6;
+    }
+
+    .light {
+      position: absolute;
+      left: 8px;
+      bottom: 14px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #ffcb56;
+    }
+
+    .diff-zone {
+      position: absolute;
+      right: 22px;
+      bottom: 28px;
+      width: 42px;
+      height: 42px;
+      border: 3px solid transparent;
+      border-radius: 50%;
+    }
+
+    .diff-zone.found {
+      border-color: #ff5d73;
+      background: rgba(255, 93, 115, 0.12);
+    }
+
+    .diff-caption {
+      padding: 12px;
+      text-align: center;
+      font-size: 17px;
+      font-weight: 900;
+    }
+
+    .puzzle-board {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      padding: 12px;
+      border: 2px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+    }
+
+    .puzzle-piece {
+      min-height: 116px;
+      display: grid;
+      place-items: center;
+      gap: 4px;
+      border: 2px dashed #b8b3aa;
+      border-radius: 8px;
+      background: #fff9df;
+      color: var(--ink);
+      font-weight: 900;
+    }
+
+    .puzzle-piece img {
+      width: 78px;
+      height: 78px;
+      object-fit: contain;
+    }
+
+    .puzzle-piece.done {
+      border-style: solid;
+      border-color: var(--green);
+      background: #ecfff1;
+    }
+
+    .memory-board {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      padding: 12px;
+      border: 2px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+    }
+
+    .memory-card {
+      aspect-ratio: 0.78;
+      border: 2px solid #e8e3dc;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      background: #d9d6d0;
+      font-weight: 900;
+      box-shadow: 0 8px 15px rgba(36, 34, 43, 0.08);
+    }
+
+    .memory-card img {
+      width: 72px;
+      height: 72px;
+      object-fit: contain;
+      opacity: 0;
+      transition: opacity 0.16s ease;
+    }
+
+    .memory-card.open,
+    .memory-card.matched {
+      background: #fff;
+    }
+
+    .memory-card.open img,
+    .memory-card.matched img {
+      opacity: 1;
+    }
+
+    .memory-card.matched {
+      border-color: var(--green);
+      background: #ecfff1;
+    }
+
+    .sound-panel {
+      display: grid;
+      gap: 12px;
+    }
+
+    .sound-box {
+      min-height: 130px;
+      display: grid;
+      place-items: center;
+      border: 2px solid var(--line);
+      border-radius: 8px;
+      background: #f6f4ff;
+      text-align: center;
+    }
+
+    .sound-box b {
+      display: block;
+      margin-top: 8px;
+      font-size: 22px;
+    }
+
+    .chips {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .chip {
+      min-height: 54px;
+      border: 2px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      font-size: 17px;
+      font-weight: 900;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 6px 10px;
+    }
+
+    .chip img {
+      width: 34px;
+      height: 34px;
+      object-fit: contain;
+    }
+
+    .profile {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 16px;
+      margin-bottom: 16px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #fff5d7, #eaf6ff);
+      border: 2px solid var(--line);
+    }
+
+    .avatar {
+      width: 76px;
+      height: 76px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: #fff;
+      font-size: 46px;
+      border: 2px solid #eee7d9;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .stat {
+      padding: 13px 8px;
+      border: 2px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      text-align: center;
+      font-weight: 900;
+    }
+
+    .stat b {
+      display: block;
+      margin-bottom: 3px;
+      font-size: 24px;
+    }
+
+    .mine-header {
+      padding: 12px 2px 16px;
+      display: grid;
+      grid-template-columns: 96px 1fr 34px;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .mine-avatar {
+      width: 92px;
+      height: 92px;
+      border-radius: 50%;
+      background: #dedede;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      border: 6px solid #fff;
+      box-shadow: 0 8px 18px rgba(36, 34, 43, 0.08);
+    }
+
+    .mine-avatar img {
+      width: 86px;
+      height: 86px;
+      object-fit: contain;
+    }
+
+    .edit-btn {
+      width: 32px;
+      height: 32px;
+      border: 0;
+      border-radius: 8px;
+      background: #f3f3f3;
+      color: #444;
+      font-size: 18px;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .mine-panel {
+      padding: 18px 14px;
+      margin-bottom: 14px;
+      border-radius: 26px;
+      background: #f1f1f1;
+    }
+
+    .mine-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      padding: 14px 10px;
+      margin-bottom: 14px;
+      border-radius: 22px;
+      background: #fff;
+    }
+
+    .mine-stat {
+      text-align: center;
+      font-weight: 900;
+      font-size: 13px;
+    }
+
+    .mine-stat img,
+    .mine-stat .stat-mark {
+      width: 36px;
+      height: 36px;
+      display: grid;
+      place-items: center;
+      margin: 0 auto 6px;
+      object-fit: contain;
+      filter: grayscale(1);
+      opacity: 0.72;
+      font-size: 28px;
+    }
+
+    .mine-stat b {
+      display: block;
+      margin-bottom: 2px;
+      font-size: 20px;
+    }
+
+    .achievement-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      column-gap: 8px;
+      row-gap: 16px;
+      margin-top: 14px;
+    }
+
+    .achievement {
+      display: grid;
+      justify-items: center;
+      gap: 4px;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .achievement .badge {
+      width: 62px;
+      height: 62px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: #d8d8d8;
+      color: #fff;
+      font-size: 26px;
+      position: relative;
+      margin-bottom: 2px;
+    }
+
+    .achievement .badge::after {
+      content: attr(data-ribbon);
+      position: absolute;
+      left: 50%;
+      bottom: -6px;
+      width: 70px;
+      min-height: 18px;
+      display: grid;
+      place-items: center;
+      transform: translateX(-50%);
+      background: #bdbdbd;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: 10px;
+      line-height: 1;
+      white-space: nowrap;
+      text-shadow: 0 1px 0 rgba(0, 0, 0, 0.08);
+      z-index: 2;
+    }
+
+    .achievement .badge::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: -6px;
+      width: 86px;
+      height: 18px;
+      transform: translateX(-50%);
+      background:
+        linear-gradient(135deg, transparent 0 9px, #a9a9a9 9px 18px) left center / 12px 18px no-repeat,
+        linear-gradient(225deg, transparent 0 9px, #a9a9a9 9px 18px) right center / 12px 18px no-repeat;
+      z-index: 1;
+    }
+
+    .achievement.locked .badge {
+      background: #fff;
+      border: 2px dashed #bdbdbd;
+      color: #8c8c8c;
+    }
+
+    .achievement.locked .badge::after {
+      background: #d2d2d2;
+      color: #6f6f6f;
+    }
+
+    .achievement.locked .badge::before {
+      background:
+        linear-gradient(135deg, transparent 0 9px, #c5c5c5 9px 18px) left center / 12px 18px no-repeat,
+        linear-gradient(225deg, transparent 0 9px, #c5c5c5 9px 18px) right center / 12px 18px no-repeat;
+    }
+
+    .mine-menu {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      padding: 16px 4px 12px;
+      border-radius: 22px;
+      background: #fff;
+      text-align: center;
+      font-weight: 900;
+    }
+
+    .mine-menu-item {
+      display: grid;
+      justify-items: center;
+      gap: 8px;
+      font-size: 13px;
+    }
+
+    .mine-menu-item span {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border-radius: 8px;
+      background: #ececec;
+      color: #868686;
+      font-size: 24px;
+    }
+
+    .encourage {
+      margin-top: 12px;
+      display: grid;
+      grid-template-columns: 86px 1fr;
+      gap: 12px;
+      align-items: center;
+      padding: 12px;
+      border-radius: 22px;
+      background: #f3f3f3;
+    }
+
+    .encourage img {
+      width: 82px;
+      height: 82px;
+      object-fit: contain;
+    }
+
+    .helper {
+      position: absolute;
+      right: 14px;
+      bottom: 92px;
+      z-index: 30;
+      width: 78px;
+      display: grid;
+      justify-items: center;
+      touch-action: none;
+      user-select: none;
+    }
+
+    .helper-bubble {
+      max-width: 148px;
+      margin-bottom: 4px;
+      padding: 8px 10px;
+      border-radius: 8px;
+      background: #fff;
+      border: 2px solid #ece5d9;
+      box-shadow: 0 8px 18px rgba(36, 34, 43, 0.12);
+      font-size: 12px;
+      font-weight: 900;
+      color: #55515c;
+      text-align: center;
+      transform-origin: bottom center;
+      transition: opacity 0.16s ease, transform 0.16s ease;
+    }
+
+    .helper.idle .helper-bubble {
+      opacity: 0;
+      transform: translateY(4px) scale(0.96);
+      pointer-events: none;
+    }
+
+    .helper-button {
+      width: 70px;
+      height: 70px;
+      border: 0;
+      border-radius: 50%;
+      background: #fff8dc;
+      box-shadow: 0 8px 18px rgba(36, 34, 43, 0.16);
+      cursor: grab;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .helper.dragging .helper-button {
+      cursor: grabbing;
+    }
+
+    .helper-button img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      pointer-events: none;
+    }
+
+    .bottom-nav {
+      height: 76px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      align-items: center;
+      border-top: 0;
+      background: rgba(255, 255, 255, 0.98);
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 5;
+      box-shadow: 0 -8px 20px rgba(52, 82, 112, 0.05);
+    }
+
+    .nav-item {
+      height: 64px;
+      border: 0;
+      background: transparent;
+      color: #8b8791;
+      display: grid;
+      justify-items: center;
+      align-content: center;
+      gap: 3px;
+      font: inherit;
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .nav-item span {
+      width: 28px;
+      height: 28px;
+      display: grid;
+      place-items: center;
+      border-radius: 8px;
+      background: transparent;
+      font-size: 18px;
+      filter: grayscale(1);
+      opacity: 0.62;
+    }
+
+    .nav-item.active {
+      color: var(--ink);
+    }
+
+    .nav-item.active span {
+      background: transparent;
+      filter: none;
+      opacity: 1;
+      box-shadow: none;
+    }
+
+    #road {
+      background: #fbfdff;
+    }
+
+    #road .back::before {
+      content: "×";
+      background: #5f6669;
+      color: #fff;
+      font-size: 30px;
+      font-weight: 400;
+    }
+
+    #road .list {
+      gap: 34px;
+      padding-top: 48px;
+    }
+
+    #road .game-card {
+      min-height: 168px;
+      position: relative;
+      grid-template-columns: 118px 1fr;
+      grid-template-areas:
+        "icon copy"
+        "icon action";
+      gap: 8px 24px;
+      padding: 28px 20px 22px;
+      border: 0;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.96);
+      box-shadow: 0 16px 28px rgba(70, 134, 180, 0.12);
+    }
+
+    #road .game-card::before {
+      position: absolute;
+      left: 28px;
+      top: -44px;
+      color: #111827;
+      font-size: 25px;
+      font-weight: 900;
+      text-shadow: 0 9px 13px rgba(92, 182, 235, 0.22);
+    }
+
+    #road .game-card::after {
+      content: "";
+      position: absolute;
+      left: 28px;
+      top: -10px;
+      width: 92px;
+      height: 12px;
+      border-radius: 999px;
+      opacity: 0.42;
+    }
+
+    #road .game-card:nth-child(1)::before {
+      content: "日常";
+    }
+
+    #road .game-card:nth-child(2)::before {
+      content: "特殊";
+    }
+
+    #road .game-card:nth-child(3)::before {
+      content: "载货";
+    }
+
+    #road .game-card:nth-child(1)::after {
+      background: #79c9ff;
+    }
+
+    #road .game-card:nth-child(2)::after {
+      background: #ffbf65;
+    }
+
+    #road .game-card:nth-child(3)::after {
+      background: #83dc75;
+    }
+
+    #road .game-card .icon {
+      grid-area: icon;
+      width: 112px;
+      height: 112px;
+      border-radius: 8px;
+      padding: 10px;
+    }
+
+    #road .game-card:nth-child(1) .icon {
+      background: linear-gradient(180deg, #cdefff, #77c7ff);
+    }
+
+    #road .game-card:nth-child(2) .icon {
+      background: linear-gradient(180deg, #fff1d9, #ffbd5f);
+    }
+
+    #road .game-card:nth-child(3) .icon {
+      background: linear-gradient(180deg, #dff8d4, #79cf67);
+    }
+
+    #road .game-card > div:nth-child(2) {
+      grid-area: copy;
+      align-self: end;
+    }
+
+    #road .game-card h2 {
+      margin-bottom: 8px;
+      color: #29516b;
+      font-size: 23px;
+    }
+
+    #road .game-card p {
+      color: #6a8191;
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    #road .arrow {
+      grid-area: action;
+      justify-self: end;
+      align-self: end;
+      width: 116px;
+      height: 36px;
+      display: inline-grid;
+      grid-auto-flow: column;
+      place-content: center;
+      align-items: center;
+      gap: 6px;
+      border-radius: 999px;
+      color: #fff;
+      font-size: 0;
+      font-weight: 900;
+    }
+
+    #road .arrow::before {
+      content: "点击进入";
+      font-size: 15px;
+    }
+
+    #road .arrow::after {
+      content: "→";
+      font-size: 22px;
+      line-height: 1;
+    }
+
+    #road .game-card:nth-child(1) .arrow {
+      background: #78c8ff;
+    }
+
+    #road .game-card:nth-child(2) .arrow {
+      background: #ffb759;
+    }
+
+    #road .game-card:nth-child(3) .arrow {
+      background: #68cf59;
+    }
+
+    #carHistory {
+      background: #fbfdff;
+    }
+
+    #carHistory .sticky-back {
+      background: rgba(251, 253, 255, 0.94);
+      border-bottom: 0;
+    }
+
+    #carHistory .back::before {
+      background: #eef9ff;
+      color: #2c9ed7;
+      font-size: 28px;
+    }
+
+    #carHistory .history-summary {
+      margin-top: 36px;
+      border: 0;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.9);
+      box-shadow: 0 14px 28px rgba(66, 166, 220, 0.1);
+    }
+
+    #carHistory .history-stat b {
+      color: #1aa7df;
+    }
+
+    #carHistory .history-divider {
+      background: #d9eef7;
+    }
+
+    #carHistory .calendar-card {
+      border: 0;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.96);
+      box-shadow: 0 14px 28px rgba(66, 166, 220, 0.08);
+    }
+
+    #carHistory .calendar-trigger .calendar-arrow {
+      border-color: #d7eef8;
+    }
+
+    #carHistory .day.done {
+      background: #19a9e5;
+      color: #fff;
+    }
+
+    #carHistory .day.today {
+      border-color: #71c8dc;
+      color: #71c8dc;
+    }
+
+    #carHistory .records-title {
+      position: relative;
+      margin-top: 26px;
+      color: #101823;
+      font-size: 22px;
+    }
+
+    #carHistory .records-title::before {
+      display: none;
+    }
+
+    #carHistory .records-title::after {
+      content: "";
+      position: absolute;
+      left: 44px;
+      bottom: 2px;
+      width: 100px;
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(89, 196, 244, 0.24);
+      z-index: -1;
+    }
+
+    #carHistory .record-card {
+      min-height: 92px;
+      border-radius: 8px;
+      background: #e5f7ff;
+      box-shadow: 0 12px 22px rgba(66, 166, 220, 0.08);
+    }
+
+    #carHistory .record-date,
+    #carHistory .record-card p {
+      color: #3e596a;
+    }
+
+    #carHistory .record-line {
+      background: #c9e6f2;
+    }
+
+    #mine {
+      background: var(--page-blue);
+      padding-top: 26px;
+    }
+
+    #mine .mine-header {
+      padding: 16px 2px 20px;
+      grid-template-columns: 108px 1fr 34px;
+    }
+
+    #mine .mine-avatar {
+      width: 104px;
+      height: 104px;
+      background: #dedede;
+      border: 6px solid #fff;
+      box-shadow: 0 10px 22px rgba(63, 139, 188, 0.12);
+    }
+
+    #mine .mine-avatar img {
+      width: 94px;
+      height: 94px;
+    }
+
+    #mine .edit-btn {
+      background: transparent;
+      color: #111;
+      font-size: 24px;
+    }
+
+    #mine .mine-panel {
+      padding: 0;
+      background: transparent;
+    }
+
+    #mine .mine-stats,
+    #mine .info-card,
+    #mine .mine-menu {
+      border: 0;
+      border-radius: 28px;
+      background: rgba(255, 255, 255, 0.96);
+      box-shadow: 0 14px 26px rgba(68, 143, 194, 0.08);
+    }
+
+    #mine .mine-stats {
+      padding: 24px 12px 20px;
+      margin-bottom: 24px;
+    }
+
+    #mine .mine-stat {
+      color: #111827;
+      font-size: 14px;
+    }
+
+    #mine .mine-stat .stat-mark {
+      width: 48px;
+      height: 48px;
+      margin-bottom: 8px;
+      filter: none;
+      opacity: 1;
+      font-size: 36px;
+      line-height: 1;
+    }
+
+    #mine .mine-stat:nth-child(1) .stat-mark {
+      color: #ffb83d;
+    }
+
+    #mine .mine-stat:nth-child(2) .stat-mark {
+      color: #38aee9;
+    }
+
+    #mine .mine-stat:nth-child(3) .stat-mark {
+      color: #ff6b5d;
+    }
+
+    #mine .mine-stat:nth-child(4) .stat-mark {
+      color: #3aaee5;
+    }
+
+    #mine .mine-stat b {
+      color: #111827;
+      font-size: 24px;
+    }
+
+    #mine .info-card {
+      padding: 24px 12px 26px;
+      margin-bottom: 24px;
+    }
+
+    #mine .section-title {
+      margin-bottom: 22px;
+      color: #111827;
+      font-size: 23px;
+    }
+
+    #mine .section-title .dot {
+      display: none;
+    }
+
+    #mine .achievement-grid {
+      row-gap: 24px;
+    }
+
+    #mine .achievement {
+      color: #111827;
+      font-size: 15px;
+    }
+
+    #mine .achievement .badge {
+      width: 70px;
+      height: 70px;
+      margin-bottom: 18px;
+      border: 0;
+      color: #fff;
+      font-size: 34px;
+      box-shadow: inset 0 -7px 0 rgba(255, 255, 255, 0.16);
+    }
+
+    #mine .achievement:nth-child(1) .badge {
+      background: #42b9e9;
+    }
+
+    #mine .achievement:nth-child(2) .badge {
+      background: #ff9d2e;
+    }
+
+    #mine .achievement:nth-child(3) .badge {
+      background: #9f6be8;
+    }
+
+    #mine .achievement:nth-child(4) .badge {
+      background: #ffb037;
+    }
+
+    #mine .achievement .badge::after {
+      bottom: -12px;
+      width: 74px;
+      min-height: 18px;
+      border-radius: 2px;
+      background: currentColor;
+      color: rgba(255, 255, 255, 0.95);
+      font-size: 9px;
+    }
+
+    #mine .achievement .badge::before {
+      bottom: -12px;
+      width: 92px;
+      height: 18px;
+      background:
+        linear-gradient(135deg, transparent 0 9px, currentColor 9px 18px) left center / 12px 18px no-repeat,
+        linear-gradient(225deg, transparent 0 9px, currentColor 9px 18px) right center / 12px 18px no-repeat;
+      opacity: 0.88;
+    }
+
+    #mine .achievement:nth-child(1) .badge::before,
+    #mine .achievement:nth-child(1) .badge::after {
+      color: #42b9e9;
+    }
+
+    #mine .achievement:nth-child(2) .badge::before,
+    #mine .achievement:nth-child(2) .badge::after {
+      color: #ffbd54;
+    }
+
+    #mine .achievement:nth-child(3) .badge::before,
+    #mine .achievement:nth-child(3) .badge::after {
+      color: #9a65df;
+    }
+
+    #mine .achievement:nth-child(4) .badge::before,
+    #mine .achievement:nth-child(4) .badge::after {
+      color: #ffc24e;
+    }
+
+    #mine .achievement.locked .badge {
+      background: #fff;
+      border: 2px dashed #ff9088;
+      color: #ff6f65;
+      box-shadow: none;
+    }
+
+    #mine .achievement.locked .badge::before {
+      background:
+        linear-gradient(135deg, transparent 0 9px, #ff8d84 9px 18px) left center / 12px 18px no-repeat,
+        linear-gradient(225deg, transparent 0 9px, #ff8d84 9px 18px) right center / 12px 18px no-repeat;
+    }
+
+    #mine .achievement.locked .badge::after {
+      background: #ff8d84;
+      color: #fff;
+    }
+
+    #mine .mine-menu {
+      padding: 26px 12px 20px;
+      margin-bottom: 12px;
+    }
+
+    #mine .mine-menu-item {
+      color: #111827;
+      font-size: 15px;
+    }
+
+    #mine .mine-menu-item span {
+      width: 48px;
+      height: 48px;
+      background: transparent;
+      font-size: 36px;
+      filter: none;
+    }
+
+    #mine .mine-menu-item:nth-child(1) span,
+    #mine .mine-menu-item:nth-child(4) span {
+      color: #39abe4;
+    }
+
+    #mine .mine-menu-item:nth-child(2) span {
+      color: #ff6b5d;
+    }
+
+    #mine .mine-menu-item:nth-child(3) span {
+      color: #f6b640;
+    }
+
+    #mine .encourage {
+      grid-template-columns: 86px 1fr;
+      margin: 10px 8px 2px;
+      border-radius: 22px;
+      background: #e6f7ff;
+    }
+
+    #mine .encourage h2 {
+      color: #111827;
+      font-size: 22px;
+    }
+
+    #mine .achievement .badge {
+      --badge-color: #42b9e9;
+      background: var(--badge-color);
+    }
+
+    #mine .achievement .badge::after {
+      background: var(--badge-color);
+      color: #fff;
+    }
+
+    #mine .achievement .badge::before {
+      background:
+        linear-gradient(135deg, transparent 0 9px, var(--badge-color) 9px 18px) left center / 12px 18px no-repeat,
+        linear-gradient(225deg, transparent 0 9px, var(--badge-color) 9px 18px) right center / 12px 18px no-repeat;
+    }
+
+    #mine .achievement:nth-child(1) .badge {
+      --badge-color: #42b9e9;
+    }
+
+    #mine .achievement:nth-child(2) .badge {
+      --badge-color: #ffbd54;
+      background: #ff9d2e;
+    }
+
+    #mine .achievement:nth-child(3) .badge {
+      --badge-color: #9a65df;
+      background: #9f6be8;
+    }
+
+    #mine .achievement:nth-child(4) .badge {
+      --badge-color: #ffc24e;
+      background: #ffb037;
+    }
+
+    #mine .achievement:nth-child(1) .badge::after,
+    #mine .achievement:nth-child(2) .badge::after,
+    #mine .achievement:nth-child(3) .badge::after,
+    #mine .achievement:nth-child(4) .badge::after {
+      color: #fff;
+      background: var(--badge-color);
+    }
+
+    #mine .achievement.locked .badge {
+      --badge-color: #ff8d84;
+      background: #fff;
+      color: #ff6f65;
+    }
+
+    #mine .mine-stat .stat-mark {
+      position: relative;
+      font-size: 0;
+    }
+
+    #mine .mine-stat .stat-mark::before {
+      content: "";
+      display: block;
+    }
+
+    #mine .mine-stat:nth-child(1) .stat-mark::before {
+      content: "★";
+      color: #ffb83d;
+      font-size: 52px;
+      line-height: 1;
+    }
+
+    #mine .mine-stat:nth-child(2) .stat-mark::before {
+      width: 44px;
+      height: 36px;
+      border-radius: 4px 4px 12px 12px;
+      background:
+        linear-gradient(90deg, transparent 48%, rgba(255, 255, 255, 0.8) 48% 52%, transparent 52%),
+        linear-gradient(180deg, #4cc2f0, #2d9fdd);
+      box-shadow: 0 6px 0 -3px rgba(45, 159, 221, 0.3);
+    }
+
+    #mine .mine-stat:nth-child(3) .stat-mark::before {
+      content: "★";
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: #ff6b5d;
+      color: #fff;
+      font-size: 24px;
+      box-shadow:
+        -8px 28px 0 -12px #ff6b5d,
+        8px 28px 0 -12px #ff6b5d;
+    }
+
+    #mine .mine-stat:nth-child(4) .stat-mark::before {
+      content: "L";
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: #3aaee5;
+      color: #fff;
+      font-size: 24px;
+      font-weight: 900;
+    }
+
+    #mine .mine-menu-item span {
+      position: relative;
+      font-size: 0;
+    }
+
+    #mine .mine-menu-item span::before {
+      display: block;
+      font-size: 38px;
+      line-height: 1;
+    }
+
+    #mine .mine-menu-item:nth-child(1) span::before {
+      content: "▤";
+      color: #39abe4;
+    }
+
+    #mine .mine-menu-item:nth-child(2) span::before {
+      content: "★";
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: #ff6b5d;
+      color: #fff;
+      font-size: 24px;
+    }
+
+    #mine .mine-menu-item:nth-child(3) span::before {
+      content: "L";
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: #f6b640;
+      color: #fff;
+      font-size: 24px;
+      font-weight: 900;
+    }
+
+    #mine .mine-menu-item:nth-child(4) span::before {
+      content: "☎";
+      color: #39abe4;
+    }
+
+    .back::before,
+    #road .back::before,
+    #carHistory .back::before {
+      content: "<";
+      width: 34px;
+      height: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      border-radius: 50%;
+      background: #eef9ff;
+      color: #21a7e8;
+      font-family: Arial, sans-serif;
+      font-size: 28px;
+      font-weight: 900;
+      line-height: 1;
+      box-shadow: none;
+    }
+
+    #mine .mine-stat .stat-mark::before,
+    #mine .mine-menu-item span::before {
+      content: none;
+    }
+
+    #mine .mine-stat .stat-mark {
+      width: 54px;
+      height: 54px;
+      display: grid;
+      place-items: center;
+      font-size: 0;
+    }
+
+    #mine .mine-stat .stat-mark img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: contain;
+    }
+
+    #mine .achievement .badge {
+      width: 90px;
+      height: 90px;
+      margin-bottom: 0;
+      border: 0;
+      background: transparent !important;
+      box-shadow: none;
+    }
+
+    #mine .achievement .badge::before,
+    #mine .achievement .badge::after {
+      content: none;
+    }
+
+    #mine .achievement .badge img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: contain;
+    }
+
+    #mine .mine-menu-item span {
+      width: 54px;
+      height: 54px;
+      display: grid;
+      place-items: center;
+      font-size: 0;
+    }
+
+    #mine .mine-menu-item span img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: contain;
+    }
+
+    .back::before,
+    #road .back::before,
+    #carHistory .back::before {
+      content: "<";
+      font-size: 24px;
+      font-weight: 500;
+    }
+
+    #carHistory .calendar-trigger .calendar-arrow {
+      border-color: #22a9e6;
+    }
+
+    #mine .mine-stat .stat-mark::before,
+    #mine .mine-stat:nth-child(1) .stat-mark::before,
+    #mine .mine-stat:nth-child(2) .stat-mark::before,
+    #mine .mine-stat:nth-child(3) .stat-mark::before,
+    #mine .mine-stat:nth-child(4) .stat-mark::before,
+    #mine .mine-menu-item span::before,
+    #mine .mine-menu-item:nth-child(1) span::before,
+    #mine .mine-menu-item:nth-child(2) span::before,
+    #mine .mine-menu-item:nth-child(3) span::before,
+    #mine .mine-menu-item:nth-child(4) span::before {
+      content: none !important;
+      display: none !important;
+    }
+
+    #mine .mine-stat img,
+    #mine .mine-stat .stat-mark img,
+    #mine .mine-menu-item span img {
+      filter: none !important;
+      opacity: 1 !important;
+    }
+
+    #mine .achievement-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      column-gap: 0;
+      row-gap: 24px;
+      overflow: hidden;
+    }
+
+    #mine .achievement {
+      min-width: 0;
+      font-size: 14px;
+    }
+
+    #mine .achievement .badge {
+      width: 78px;
+      height: 62px;
+    }
+
+    #mine .achievement .badge img {
+      width: 78px;
+      height: 62px;
+      max-width: none;
+      object-fit: contain;
+    }
+
+    #mine .achievement .badge::after,
+    #mine .achievement:nth-child(1) .badge::after,
+    #mine .achievement:nth-child(2) .badge::after,
+    #mine .achievement:nth-child(3) .badge::after,
+    #mine .achievement:nth-child(4) .badge::after,
+    #mine .achievement.locked .badge::after {
+      content: attr(data-ribbon) !important;
+      position: absolute;
+      left: 50%;
+      bottom: 8px;
+      z-index: 3;
+      display: grid !important;
+      place-items: center;
+      width: 58px;
+      height: 13px;
+      transform: translateX(-50%);
+      border-radius: 0;
+      background: transparent !important;
+      color: #fff !important;
+      font-size: 8px;
+      font-weight: 900;
+      line-height: 1;
+      white-space: nowrap;
+      text-shadow: 0 1px 1px rgba(0, 0, 0, 0.18);
+      pointer-events: none;
+    }
+
+    #mine .achievement.locked .badge::after {
+      color: #e85f58 !important;
+      text-shadow: none;
+    }
+
+    #mine .achievement.locked .badge img {
+      width: 78px;
+      height: 62px;
+    }
+
+    .nav-item[data-nav="mine"] span {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      overflow: hidden;
+      background: #fff7dc;
+      filter: none;
+      opacity: 1;
+      font-size: 0;
+    }
+
+    .nav-item[data-nav="mine"] span::before {
+      content: "";
+      width: 100%;
+      height: 100%;
+      display: block;
+      background: url("images/mascot/mascot-04.png") center / 125% auto no-repeat;
+    }
+
+    #mine .achievement .badge::after,
+    #mine .achievement:nth-child(1) .badge::after,
+    #mine .achievement:nth-child(2) .badge::after,
+    #mine .achievement:nth-child(3) .badge::after,
+    #mine .achievement:nth-child(4) .badge::after,
+    #mine .achievement.locked .badge::after {
+      content: none !important;
+      display: none !important;
+    }
+
+    #mine .achievement.locked .badge img {
+      width: 72px;
+      height: 72px;
+    }
+
+    .nav-item[data-nav="mine"] span {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      overflow: visible;
+      background: transparent;
+      filter: grayscale(1);
+      opacity: 0.62;
+      font-size: 18px;
+    }
+
+    .nav-item[data-nav="mine"] span::before {
+      content: none;
+      display: none;
+      background: none;
+    }
+
+    .nav-item[data-nav="mine"].active span {
+      filter: none;
+      opacity: 1;
+    }
+
+    .bottom-nav .nav-item[data-nav="mine"] span {
+      width: 28px !important;
+      height: 28px !important;
+      border-radius: 8px !important;
+      overflow: visible !important;
+      background: transparent !important;
+      filter: grayscale(1);
+      opacity: 0.62;
+      font-size: 18px !important;
+    }
+
+    .bottom-nav .nav-item[data-nav="mine"] span::before {
+      content: none !important;
+      display: none !important;
+      background: none !important;
+    }
+
+    .bottom-nav .nav-item[data-nav="mine"].active span {
+      filter: none !important;
+      opacity: 1 !important;
+    }
+
+    #mine .achievement.locked .badge {
+      border: 0 !important;
+      background: transparent !important;
+      box-shadow: none !important;
+    }
+
+    #mine .achievement.locked .badge img {
+      width: 78px !important;
+      height: 62px !important;
+      object-fit: contain;
+    }
+
+    #daily {
+      background: #f3faff;
+    }
+
+    #daily .back {
+      margin-bottom: 28px;
+    }
+
+    #daily .daily-grid {
+      gap: 24px 22px;
+    }
+
+    #daily .card {
+      min-height: 166px;
+      padding: 24px 10px 20px;
+      border: 0;
+      border-radius: 16px;
+      background: #fff;
+      box-shadow: 0 10px 24px rgba(73, 137, 190, 0.08);
+    }
+
+    #daily .card .icon {
+      width: 82px;
+      height: 82px;
+      margin-bottom: 14px;
+      padding: 10px;
+      border-radius: 50%;
+    }
+
+    #daily .card:nth-child(1) .icon,
+    #daily .card:nth-child(5) .icon {
+      background: #f8e9bf;
+    }
+
+    #daily .card:nth-child(2) .icon,
+    #daily .card:nth-child(6) .icon {
+      background: #fde4d9;
+    }
+
+    #daily .card:nth-child(3) .icon,
+    #daily .card:nth-child(7) .icon {
+      background: #d8f3cf;
+    }
+
+    #daily .card:nth-child(4) .icon,
+    #daily .card:nth-child(8) .icon {
+      background: #bdefff;
+    }
+
+    #daily .card-title {
+      color: #1b2636;
+      font-size: 18px;
+    }
+
+    #road .list {
+      gap: 20px;
+      padding-top: 12px;
+    }
+
+    #road .game-card {
+      min-height: 188px;
+      grid-template-columns: 122px 1fr;
+      grid-template-areas:
+        "title title"
+        "icon copy"
+        "icon action";
+      gap: 8px 24px;
+      padding: 24px 20px 20px;
+      border-radius: 28px;
+      background: #fff;
+      box-shadow: 0 16px 30px rgba(70, 134, 180, 0.1);
+    }
+
+    #road .game-card::before {
+      left: 26px;
+      top: 22px;
+      font-size: 25px;
+      line-height: 1;
+      z-index: 2;
+      text-shadow: none;
+    }
+
+    #road .game-card::after {
+      left: 26px;
+      top: 52px;
+      width: 104px;
+      height: 12px;
+      z-index: 1;
+    }
+
+    #road .game-card .icon {
+      width: 118px;
+      height: 118px;
+      align-self: center;
+      margin-top: 22px;
+    }
+
+    #road .game-card > div:nth-child(2) {
+      align-self: center;
+      margin-top: 20px;
+    }
+
+    #road .game-card h2 {
+      margin-bottom: 10px;
+      font-size: 24px;
+      color: #184f72;
+    }
+
+    #road .game-card p {
+      font-size: 17px;
+      line-height: 1.45;
+    }
+
+    #road .arrow {
+      margin-top: 0;
+      width: 118px;
+      height: 36px;
+      align-self: start;
+    }
+
+    .home-actions {
+      gap: 20px;
+    }
+
+    .home-actions .card {
+      min-height: 132px;
+      border-radius: 28px;
+    }
+
+    .home-actions .icon {
+      width: 72px;
+      height: 72px;
+    }
+
+    .home-feature {
+      min-height: 150px;
+      padding: 22px 20px 16px;
+      border-radius: 28px;
+    }
+
+    .home-feature .section-title {
+      font-size: 17px;
+      margin-bottom: 14px;
+    }
+
+    .home-feature .thumb {
+      width: 82px;
+      height: 82px;
+    }
+
+    .home-feature h3 {
+      font-size: 21px;
+    }
+
+    .home-feature p {
+      font-size: 16px;
+    }
+
+    #road .list {
+      gap: 16px;
+    }
+
+    #road .game-card {
+      min-height: 158px;
+      grid-template-columns: 104px 1fr;
+      gap: 6px 18px;
+      padding: 22px 18px 18px;
+      border-radius: 28px;
+    }
+
+    #road .game-card::before {
+      font-size: 22px;
+    }
+
+    #road .game-card::after {
+      top: 49px;
+      width: 92px;
+    }
+
+    #road .game-card .icon {
+      width: 100px;
+      height: 100px;
+      margin-top: 18px;
+    }
+
+    #road .game-card .icon {
+      width: 110px;
+      height: 110px;
+      margin-top: 18px;
+      border-radius: 8px;
+      padding: 10px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    #road .game-card::after {
+      display: none;
+    }
+
+    #road .game-card .icon::before {
+      content: "";
+      position: absolute;
+      top: 4px;
+      left: 8px;
+      right: 8px;
+      height: 14px;
+      border-radius: 999px;
+      opacity: 0.78;
+      z-index: 1;
+    }
+
+    #road .game-card .icon img {
+      position: relative;
+      z-index: 2;
+    }
+
+    #road .game-card:nth-child(1) .icon::before {
+      background: #74c5f2;
+    }
+
+    #road .game-card:nth-child(2) .icon::before {
+      background: #ffbe5b;
+    }
+
+    #road .game-card:nth-child(3) .icon::before {
+      background: #76d866;
+    }
+
+    #road .game-card > div:nth-child(2) {
+      margin-top: 18px;
+    }
+
+    #road .game-card h2 {
+      font-size: 22px;
+    }
+
+    #road .game-card p {
+      font-size: 15px;
+    }
+
+    #road .arrow {
+      width: 108px;
+      height: 34px;
+    }
+
+    #road .arrow {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.5em;
+      width: 104px;
+      height: 32px;
+      line-height: 1;
+    }
+
+    #road .arrow::before {
+      font-size: 13px;
+      line-height: 1;
+    }
+
+    #road .arrow::after {
+      font-size: 16px;
+      line-height: 1;
+      transform: translateY(-1px);
+    }
+
+    #daily .sticky-back,
+    #puzzle .sticky-back,
+    #memory .sticky-back {
+      background: rgba(238, 247, 255, 0.96);
+      border-bottom-color: rgba(216, 233, 246, 0.88);
+    }
+
+    #daily .sticky-back .back,
+    #puzzle .sticky-back .back,
+    #memory .sticky-back .back {
+      margin-bottom: 0;
+    }
+
+    #daily .card .icon {
+      background: transparent !important;
+      padding: 4px;
+    }
+
+    #findDiff,
+    #puzzle,
+    #memory,
+    #soundGame {
+      background: #eef7ff;
+    }
+
+    #findDiff .diff-card,
+    #puzzle .puzzle-board,
+    #soundGame .sound-box,
+    #soundGame .chip {
+      border-radius: 24px;
+      border-color: #d8e9f6;
+      background: #fff;
+    }
+
+    #findDiff .diff-card {
+      box-shadow: 0 10px 24px rgba(73, 137, 190, 0.08);
+    }
+
+    #findDiff .diff-scene {
+      border-radius: 22px 22px 0 0;
+      background: #eff9ff;
+    }
+
+    #findDiff .primary-btn,
+    #puzzle .primary-btn,
+    #soundGame .primary-btn {
+      border-radius: 14px;
+    }
+
+    #puzzle .puzzle-board {
+      gap: 14px;
+      padding: 16px;
+      box-shadow: 0 10px 24px rgba(73, 137, 190, 0.08);
+    }
+
+    #puzzle .puzzle-piece {
+      min-height: 148px;
+      border-radius: 18px;
+      background: #fff9dd;
+      font-size: 20px;
+      font-weight: 900;
+    }
+
+    #puzzle .puzzle-piece img {
+      width: 104px;
+      height: 76px;
+      object-fit: contain;
+    }
+
+    #puzzle .puzzle-piece span {
+      display: block;
+    }
+
+    #puzzle .puzzle-complete {
+      margin-top: 14px;
+      padding: 14px;
+      border: 2px solid #d8e9f6;
+      border-radius: 24px;
+      background: #fff;
+      box-shadow: 0 10px 24px rgba(73, 137, 190, 0.08);
+    }
+
+    #puzzle .puzzle-complete-title {
+      margin-bottom: 10px;
+      color: var(--ink);
+      font-size: 18px;
+      font-weight: 900;
+    }
+
+    #puzzle .puzzle-complete img {
+      display: block;
+      width: 100%;
+      height: 146px;
+      object-fit: contain;
+      border-radius: 18px;
+      background: #fff9dd;
+    }
+
+    #memory .memory-card {
+      background: #eef7ff;
+      border-color: #d8e9f6;
+      box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.72), 0 8px 15px rgba(73, 137, 190, 0.08);
+    }
+
+    #memory .memory-card.open {
+      background: #fff;
+      border-color: #d8e9f6;
+    }
+
+    #memory .memory-card.matched {
+      background: #ecfff1;
+      border-color: var(--green);
+    }
+
+    #soundGame .sound-box {
+      min-height: 150px;
+      background: #f5f1ff;
+    }
+
+    #soundGame .sound-box b {
+      font-size: 25px;
+    }
+
+    #soundGame .chips {
+      gap: 14px;
+    }
+
+    #soundGame .chip {
+      min-height: 78px;
+      justify-content: center;
+      gap: 14px;
+      font-size: 22px;
+      font-weight: 900;
+      box-shadow: 0 8px 18px rgba(73, 137, 190, 0.05);
+    }
+
+    #soundGame .chip img {
+      width: 50px;
+      height: 50px;
+    }
+
+    @media (max-height: 720px) {
+      body {
+        padding: 8px;
+      }
+
+      .phone {
+        transform: scale(0.92);
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="phone" aria-label="幼儿交通工具科普 H5 原型">
+    <div class="speaker"></div>
+    <div class="camera"></div>
+
+    <header class="status">
+      <img src="images/status-bar.png" alt="手机状态栏">
+    </header>
+
+    <div class="app">
+      <section id="home" class="screen active home-screen" aria-label="首页">
+        <div class="hero-banner" onclick="goPage('traffic')" role="button" tabindex="0">
+          <div class="hero-copy">
+            <h1>认识交通工具</h1>
+            <p>幼儿启蒙认知</p>
+            <button class="hero-cta" type="button" onclick="goPage('traffic')">开始探索</button>
+          </div>
+          <span class="hero-cloud small"></span>
+          <span class="hero-cloud large"></span>
+          <div class="hero-world"><span class="hero-smile"></span></div>
+          <img class="hero-vehicle car" src="images/icons/car.png" alt="">
+          <img class="hero-vehicle train" src="images/icons/train.png" alt="">
+          <img class="hero-vehicle plane" src="images/icons/airplane.png" alt="">
+          <img class="hero-vehicle heli" src="images/icons/helicopter.png" alt="">
+          <img class="hero-vehicle ship" src="images/icons/ship.png" alt="">
+          <span class="hero-star one">★</span>
+          <span class="hero-star two">★</span>
+        </div>
+
+        <div class="grid home-actions">
+          <article class="card blue tap" onclick="goPage('traffic')">
+            <div class="icon"><img src="images/icons/traffic_all.png" alt="交通工具大全"></div>
+            <div class="card-title">交通工具大全</div>
+          </article>
+          <article class="card yellow tap" onclick="goPage('carHistory')">
+            <div class="icon"><img src="images/icons/car_history.png" alt="车车小历史"></div>
+            <div class="card-title">车车小历史</div>
+          </article>
+        </div>
+
+        <article class="feature-card home-feature">
+          <div class="dots"><span></span><span></span><span></span><span></span></div>
+          <div>
+            <div class="section-title"><span class="dot orange"></span>今日小发现</div>
+            <div style="display: flex; align-items: center; gap: 20px;">
+              <div class="thumb"><img src="images/icons/fire_truck.png" alt="消防车"></div>
+              <div>
+                <h3>消防</h3>
+                <p>今天认识了会喷水的消防车</p>
+              </div>
+            </div>
+          </div>
+          <button class="sound" type="button" onclick="say('消防车会帮助大家灭火和救援。')">🔊</button>
+        </article>
+
+        <article class="feature-card home-feature result">
+          <div>
+            <div class="section-title"><span class="dot green"></span>今日小成果</div>
+            <div style="display: flex; align-items: center; gap: 28px;">
+              <div class="thumb"><img src="images/icons/car.png" alt="小汽车"></div>
+              <p>今天认识了会飞的汽车</p>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <section id="carHistory" class="screen" aria-label="车车小历史">
+        <div class="sticky-back">
+          <button class="back" type="button" onclick="goPage('home')">车车小历史</button>
+        </div>
+
+        <div class="history-summary">
+          <div class="history-stat">
+            <b>92</b>
+            <span>打卡天数</span>
+          </div>
+          <div class="history-divider"></div>
+          <div class="history-stat">
+            <b>0</b>
+            <span>徽章数</span>
+          </div>
+        </div>
+
+        <article class="calendar-card">
+          <div class="calendar-title">
+            <button id="calendarTrigger" class="calendar-trigger" type="button" onclick="toggleDatePicker()">
+              <span id="calendarTitleText">2026年 6月</span><span class="calendar-arrow" aria-hidden="true"></span>
+            </button>
+          </div>
+          <div id="datePicker" class="date-picker" aria-label="年月选择器">
+            <div class="picker-wheel">
+              <div id="yearWheel" class="picker-col" aria-label="选择年份"></div>
+              <div id="monthWheel" class="picker-col" aria-label="选择月份"></div>
+            </div>
+          </div>
+          <div class="weekday">
+            <span>SUN</span><span>MON</span><span>TUE</span><span>WED</span><span>THU</span><span>FRI</span><span>SAT</span>
+          </div>
+          <div id="calendarGrid" class="calendar-grid">
+            <span class="day done">31</span><span class="day done">1</span><span class="day done">2</span><span class="day done">3</span><span class="day done">4</span><span class="day done">5</span><span class="day">6</span>
+            <span class="day done">7</span><span class="day done">8</span><span class="day done">9</span><span class="day done">10</span><span class="day done">11</span><span class="day done">12</span><span class="day done">13</span>
+            <span class="day done">14</span><span class="day done">15</span><span class="day done">16</span><span class="day done">17</span><span class="day done">18</span><span class="day done">19</span><span class="day done">20</span>
+            <span class="day">21</span><span class="day today">22</span><span class="day">23</span><span class="day">24</span><span class="day">25</span><span class="day">26</span><span class="day">27</span>
+            <span class="day">28</span><span class="day">29</span><span class="day">30</span><span class="day">1</span><span class="day">2</span><span class="day">3</span><span class="day">4</span>
+          </div>
+        </article>
+
+        <div class="records-title">近期打卡记录</div>
+        <div class="record-list">
+          <article class="record-card">
+            <div class="record-date">06月20日<small>9:03 pm</small></div>
+            <div class="record-line"></div>
+            <p>认识了两种交通工具</p>
+          </article>
+          <article class="record-card">
+            <div class="record-date">06月19日<small>10:06 am</small></div>
+            <div class="record-line"></div>
+            <p>认识了五种交通工具</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="traffic" class="screen" aria-label="交通工具大全">
+        <button class="back" type="button" onclick="goPage('home')">交通工具大全</button>
+        <div class="grid">
+          <article class="card blue tap" onclick="goPage('road')">
+            <div class="icon"><img src="images/icons/car.png" alt="路上的"></div>
+            <div class="card-title">路上的</div>
+          </article>
+          <article class="card green tap" onclick="say('轨道上的交通工具包括高铁、地铁和火车。')">
+            <div class="icon"><img src="images/icons/highspeed.png" alt="轨道上的"></div>
+            <div class="card-title">轨道上的</div>
+          </article>
+          <article class="card yellow tap" onclick="say('天上的交通工具包括飞机和直升机。')">
+            <div class="icon"><img src="images/icons/airplane.png" alt="天上的"></div>
+            <div class="card-title">天上的</div>
+          </article>
+          <article class="card pink tap" onclick="say('水里的交通工具包括轮船和小船。')">
+            <div class="icon"><img src="images/icons/ship.png" alt="水里的"></div>
+            <div class="card-title">水里的</div>
+          </article>
+        </div>
+      </section>
+
+      <section id="road" class="screen" aria-label="路上的交通工具">
+        <button class="back" type="button" onclick="goPage('traffic')">路上的</button>
+        <div class="list">
+          <article class="game-card tap" onclick="goPage('daily')">
+            <div class="icon"><img src="images/icons/bike.png" alt="日常出行车"></div>
+            <div>
+              <h2>日常出行车</h2>
+              <p>上学、出门、逛公园常见的车。</p>
+            </div>
+            <div class="arrow">›</div>
+          </article>
+          <article class="game-card tap" onclick="say('特殊功能车包括救护车、消防车和警车。')">
+            <div class="icon"><img src="images/icons/ambulance.png" alt="特殊功能车"></div>
+            <div>
+              <h2>特殊功能车</h2>
+              <p>帮助大家解决紧急问题。</p>
+            </div>
+            <div class="arrow">›</div>
+          </article>
+          <article class="game-card tap" onclick="say('载货运输车可以运送大箱子和很多货物。')">
+            <div class="icon"><img src="images/icons/cargo_truck.png" alt="载货运输车"></div>
+            <div>
+              <h2>载货运输车</h2>
+              <p>把货物送到不同地方。</p>
+            </div>
+            <div class="arrow">›</div>
+          </article>
+        </div>
+      </section>
+
+      <section id="daily" class="screen" aria-label="日常出行车">
+        <div class="sticky-back">
+          <button class="back" type="button" onclick="goPage('road')">日常出行车</button>
+        </div>
+        <div class="grid daily-grid">
+          <article class="card yellow tap" onclick="say('家用车可以带家人一起出门。')">
+            <div class="icon"><img src="images/icons/car.png" alt="家用车"></div>
+            <div class="card-title">家用车</div>
+          </article>
+          <article class="card green tap" onclick="say('自行车详情请从底部“认一认”页面进入。')">
+            <div class="icon"><img src="images/icons/bike.png" alt="自行车"></div>
+            <div class="card-title">自行车</div>
+          </article>
+          <article class="card blue tap" onclick="say('公交车可以载很多人一起出行。')">
+            <div class="icon"><img src="images/icons/bus.png" alt="公交车"></div>
+            <div class="card-title">公交车</div>
+          </article>
+          <article class="card pink tap" onclick="say('出租车可以把乘客送到想去的地方。')">
+            <div class="icon"><img src="images/icons/taxi.png" alt="出租车"></div>
+            <div class="card-title">出租车</div>
+          </article>
+          <article class="card yellow tap" onclick="say('三轮车车身小巧，适合短途出行。')">
+            <div class="icon"><img src="images/icons/tuk_tuk.png" alt="三轮车"></div>
+            <div class="card-title">三轮车</div>
+          </article>
+          <article class="card pink tap" onclick="say('摩托车速度快，乘坐时要戴好头盔。')">
+            <div class="icon"><img src="images/icons/motorcycle.png" alt="摩托车"></div>
+            <div class="card-title">摩托车</div>
+          </article>
+          <article class="card green tap" onclick="say('面包车空间大，可以载人也可以放行李。')">
+            <div class="icon"><img src="images/icons/van.png" alt="面包车"></div>
+            <div class="card-title">面包车</div>
+          </article>
+          <article class="card blue tap" onclick="say('房车像会移动的小房子，适合旅行。')">
+            <div class="icon"><img src="images/icons/camper.png" alt="房车"></div>
+            <div class="card-title">房车</div>
+          </article>
+        </div>
+      </section>
+
+      <section id="bikeDetail" class="screen" aria-label="自行车详情">
+        <div class="sticky-back">
+          <button class="back" type="button" onclick="goPage('learn', null, 'learn')">自行车</button>
+        </div>
+        <div class="hero-bike">
+          <div class="vehicle"><img src="images/icons/bike.png" alt="自行车"></div>
+          <button class="listen-btn" type="button" onclick="say('叮铃铃，自行车来啦！')">🔊 听一听</button>
+        </div>
+
+        <article class="info-card">
+          <div class="section-title"><span class="dot"></span>认识它的样子</div>
+          <p>自行车有车把、车轮、车座和脚踏。小朋友骑车时要戴好头盔。</p>
+        </article>
+
+        <article class="info-card">
+          <div class="section-title"><span class="dot green"></span>它的小本领</div>
+          <div class="skills">
+            <div class="skill">🏫 陪你上学</div>
+            <div class="skill">🌳 周末逛公园</div>
+            <div class="skill">🏃 骑车锻炼身体</div>
+            <div class="skill">♻️ 绿色低碳</div>
+          </div>
+        </article>
+
+        <article class="info-card">
+          <div class="section-title"><span class="dot orange"></span>小贴士</div>
+          <p>选择骑行，低碳环保；戴好头盔，遵守交规，安全第一。</p>
+        </article>
+
+        <article class="info-card">
+          <div class="section-title"><span class="dot"></span>请问这辆小车行驶在什么地方？</div>
+          <div class="quiz-image"><img src="images/icons/bike.png" alt="自行车"></div>
+          <div class="quiz-options">
+            <button class="option" type="button" onclick="correctAnswer()"><span><strong>A</strong>路上</span></button>
+            <button class="option" type="button" onclick="wrongAnswer()"><span><strong>B</strong>水里</span></button>
+            <button class="option" type="button" onclick="wrongAnswer()"><span><strong>C</strong>天上</span></button>
+            <button class="option" type="button" onclick="wrongAnswer()"><span><strong>D</strong>轨道上</span></button>
+          </div>
+        </article>
+      </section>
+
+      <section id="success" class="screen" aria-label="答对奖励">
+        <div class="success-screen">
+          <h1>答对了！</h1>
+          <p>你真棒，继续加油哦！</p>
+          <div class="dog"><img src="images/mascot/mascot-01.png" alt="小精灵奖杯"></div>
+          <div class="answer-pill">正确答案：<span>A 路上</span></div>
+          <div class="reward-card">
+            <div class="reward-item"><b>⭐</b>+10</div>
+            <div class="reward-item"><b>💎</b>+1</div>
+            <div class="reward-item"><b>🛡️</b>经验+5</div>
+            <div class="reward-item"><b>💗</b>+1</div>
+          </div>
+          <button class="primary-btn" type="button" onclick="goRewardNext()">下一个 →</button>
+        </div>
+      </section>
+
+      <section id="learn" class="screen" aria-label="认一认">
+        <div class="top-row">
+          <div>
+            <h1>认一认</h1>
+            <p>选择一辆小车，开始认识吧！</p>
+          </div>
+          <div class="mascot"><img src="images/mascot/mascot-05.png" alt="小精灵"></div>
+        </div>
+        <div class="grid">
+          <article class="card learn-card yellow tap" onclick="say('消防车：灭火救援，守护平安。')">
+            <div class="icon"><img src="images/icons/fire_truck.png" alt="消防车"></div>
+            <div class="card-title">消防车</div>
+            <p>灭火救援</p>
+          </article>
+          <article class="card learn-card blue tap" onclick="say('警车：维持秩序，保障安全。')">
+            <div class="icon"><img src="images/icons/police_car.png" alt="警车"></div>
+            <div class="card-title">警车</div>
+            <p>保障安全</p>
+          </article>
+          <article class="card learn-card green tap" onclick="say('高铁：极速飞驰，长途出行。')">
+            <div class="icon"><img src="images/icons/highspeed.png" alt="高铁"></div>
+            <div class="card-title">高铁</div>
+            <p>长途出行</p>
+          </article>
+          <article class="card learn-card pink tap" onclick="goPage('bikeDetail')">
+            <div class="icon"><img src="images/icons/bike.png" alt="自行车"></div>
+            <div class="card-title">自行车</div>
+            <p>绿色出行</p>
+          </article>
+          <article class="card learn-card yellow tap" onclick="say('挖掘机：力大无穷，工程施工。')">
+            <div class="icon"><img src="images/icons/excavator.png" alt="挖掘机"></div>
+            <div class="card-title">挖掘机</div>
+            <p>工程施工</p>
+          </article>
+          <article class="card learn-card blue tap" onclick="say('公交车：载人出行，便捷通勤。')">
+            <div class="icon"><img src="images/icons/bus.png" alt="公交车"></div>
+            <div class="card-title">公交车</div>
+            <p>便捷通勤</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="game" class="screen" aria-label="趣味小游戏">
+        <div class="game-hero">
+          <div>
+            <h1>趣味小游戏</h1>
+            <p>快来玩一玩，边玩边学更有趣！</p>
+          </div>
+          <div class="controller">🎮</div>
+        </div>
+        <div class="list">
+          <article class="game-card tap" onclick="goPage('findDiff')">
+            <div class="icon">🔍</div>
+            <div>
+              <h2>找找不同</h2>
+              <p>找出两张图中不一样的地方。</p>
+            </div>
+            <div class="arrow">›</div>
+          </article>
+          <article class="game-card tap" onclick="goPage('puzzle')">
+            <div class="icon">🧩</div>
+            <div>
+              <h2>拼图游戏</h2>
+              <p>把碎片拼在一起，完成漂亮的车车。</p>
+            </div>
+            <div class="arrow">›</div>
+          </article>
+          <article class="game-card tap" onclick="goPage('memory')">
+            <div class="icon">🃏</div>
+            <div>
+              <h2>记忆配对</h2>
+              <p>翻牌找相同，考验记忆力。</p>
+            </div>
+            <div class="arrow">›</div>
+          </article>
+          <article class="game-card tap" onclick="goPage('soundGame')">
+            <div class="icon">🔊</div>
+            <div>
+              <h2>声音连连看</h2>
+              <p>听声音，选出正确的交通工具。</p>
+            </div>
+            <div class="arrow">›</div>
+          </article>
+        </div>
+      </section>
+
+      <section id="findDiff" class="screen" aria-label="找找不同">
+        <button class="back" type="button" onclick="goPage('game')">找找不同</button>
+        <h1>找找不同</h1>
+        <p style="margin-bottom: 14px;">点击图中不一样的地方。</p>
+        <div class="diff-board">
+          <article class="diff-card">
+            <div class="diff-scene">
+              <div class="bus"><span class="stripe"></span><span class="light"></span></div>
+              <div class="bus missing-light"><span class="stripe"></span><span class="light"></span></div>
+              <button class="diff-zone" type="button" aria-label="不同点" onclick="markDiff(this)"></button>
+            </div>
+            <div class="diff-caption">找出两辆车不一样的地方</div>
+          </article>
+          <button class="primary-btn" type="button" onclick="say('提示：右边小车少了一个车灯。')">我想要提示</button>
+        </div>
+      </section>
+
+      <section id="puzzle" class="screen" aria-label="拼图游戏">
+        <div class="sticky-back">
+          <button class="back" type="button" onclick="goPage('game')">拼图游戏</button>
+        </div>
+        <h1>拼图游戏</h1>
+        <p style="margin-bottom: 14px;">按 1、2、3、4 的顺序点亮碎片。</p>
+        <div class="puzzle-board" id="puzzleBoard">
+          <button class="puzzle-piece" type="button" data-piece="3" onclick="placePiece(this, 3)"><img src="images/puzzle/puzzle-3.png" alt="拼图碎片3"><span>3</span></button>
+          <button class="puzzle-piece" type="button" data-piece="1" onclick="placePiece(this, 1)"><img src="images/puzzle/puzzle-1.png" alt="拼图碎片1"><span>1</span></button>
+          <button class="puzzle-piece" type="button" data-piece="4" onclick="placePiece(this, 4)"><img src="images/puzzle/puzzle-4.png" alt="拼图碎片4"><span>4</span></button>
+          <button class="puzzle-piece" type="button" data-piece="2" onclick="placePiece(this, 2)"><img src="images/puzzle/puzzle-2.png" alt="拼图碎片2"><span>2</span></button>
+        </div>
+        <div class="puzzle-complete">
+          <div class="puzzle-complete-title">完整图片</div>
+          <img src="images/puzzle/puzzle-full.png" alt="拼图完整图片">
+        </div>
+      </section>
+
+      <section id="memory" class="screen" aria-label="记忆配对">
+        <div class="sticky-back">
+          <button class="back" type="button" onclick="goPage('game')">记忆配对</button>
+        </div>
+        <h1>记忆配对</h1>
+        <p style="margin-bottom: 14px;">翻牌找相同，配对成功会变成绿色。</p>
+        <div class="memory-board" id="memoryBoard"></div>
+      </section>
+
+      <section id="soundGame" class="screen" aria-label="声音连连看">
+        <button class="back" type="button" onclick="goPage('game')">声音连连看</button>
+        <h1>声音连连看</h1>
+        <p style="margin-bottom: 14px;">听声音，选出正确的交通工具。</p>
+        <div class="sound-panel">
+          <div class="sound-box">
+            <div>
+              <div style="font-size: 48px;">🔊</div>
+              <b>叮铃铃，叮铃铃</b>
+            </div>
+          </div>
+          <div class="chips">
+            <button class="chip" type="button" onclick="soundPick(false)"><img src="images/icons/fire_truck.png" alt="">消防车</button>
+            <button class="chip" type="button" onclick="soundPick(true)"><img src="images/icons/bike.png" alt="">自行车</button>
+            <button class="chip" type="button" onclick="soundPick(false)"><img src="images/icons/ship.png" alt="">轮船</button>
+            <button class="chip" type="button" onclick="soundPick(false)"><img src="images/icons/airplane.png" alt="">飞机</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="mine" class="screen" aria-label="我的">
+        <div class="mine-header">
+          <div class="mine-avatar">
+            <img src="images/mascot/mascot-09.png" alt="头像">
+          </div>
+          <div>
+            <h1>小迷宝贝</h1>
+            <p>3岁 | 热爱探索的小达人</p>
+          </div>
+          <button class="edit-btn" type="button" onclick="say('这里可以进入资料编辑页。')">✎</button>
+        </div>
+
+        <div class="mine-panel">
+          <div class="mine-stats">
+            <div class="mine-stat"><span class="stat-mark"><img src="images/mine-icons/stat-favorite.png" alt=""></span><b>28</b>我的收藏</div>
+            <div class="mine-stat"><span class="stat-mark"><img src="images/mine-icons/stat-record.png" alt=""></span><b>56</b>学习记录</div>
+            <div class="mine-stat"><span class="stat-mark"><img src="images/mine-icons/stat-medal.png" alt=""></span><b>12</b>获得勋章</div>
+            <div class="mine-stat"><span class="stat-mark"><img src="images/mine-icons/stat-time.png" alt=""></span><b>36</b>累计时长</div>
+          </div>
+
+          <article class="info-card">
+            <div class="section-title"><span class="dot orange"></span>我的成就</div>
+            <div class="achievement-grid">
+              <div class="achievement">
+                <div class="badge" data-ribbon="知识小车"><img src="images/mine-icons/ach-car.png" alt=""></div>
+                已获得
+              </div>
+              <div class="achievement">
+                <div class="badge" data-ribbon="声音小达人"><img src="images/mine-icons/ach-sound.png" alt=""></div>
+                已获得
+              </div>
+              <div class="achievement">
+                <div class="badge" data-ribbon="拼图能手"><img src="images/mine-icons/ach-puzzle.png" alt=""></div>
+                已获得
+              </div>
+              <div class="achievement">
+                <div class="badge" data-ribbon="知识学霸"><img src="images/mine-icons/ach-book.png" alt=""></div>
+                已获得
+              </div>
+              <div class="achievement locked">
+                <div class="badge" data-ribbon="探索家"><img src="images/mine-icons/ach-locked.png" alt=""></div>
+                未获得
+              </div>
+            </div>
+          </article>
+
+          <div class="mine-menu">
+            <div class="mine-menu-item"><span><img src="images/mine-icons/menu-record.png" alt=""></span>学习记录</div>
+            <div class="mine-menu-item"><span><img src="images/mine-icons/menu-medal.png" alt=""></span>成长勋章</div>
+            <div class="mine-menu-item"><span><img src="images/mine-icons/menu-time.png" alt=""></span>使用时间</div>
+            <div class="mine-menu-item"><span><img src="images/mine-icons/menu-help.png" alt=""></span>帮助反馈</div>
+          </div>
+
+          <div class="encourage">
+            <img src="images/mascot/mascot-10.png" alt="小精灵">
+            <div>
+              <h2>宝贝，继续探索吧！</h2>
+              <p>每天多学一点点，进步多一点点！</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <nav class="bottom-nav" aria-label="底部导航">
+      <button class="nav-item active" type="button" data-nav="home" onclick="goPage('home', this, 'home')">
+        <span>🏠</span>首页
+      </button>
+      <button class="nav-item" type="button" data-nav="learn" onclick="goPage('learn', this, 'learn')">
+        <span>🔎</span>认一认
+      </button>
+      <button class="nav-item" type="button" data-nav="game" onclick="goPage('game', this, 'game')">
+        <span>🎮</span>玩游戏
+      </button>
+      <button class="nav-item" type="button" data-nav="mine" onclick="goPage('mine', this, 'mine')">
+        <span>👤</span>我的
+      </button>
+    </nav>
+
+    <div id="helper" class="helper idle" aria-label="小精灵助手">
+      <div id="helperBubble" class="helper-bubble">点我，我会陪你认识交通工具。</div>
+      <button id="helperButton" class="helper-button" type="button" aria-label="拖动或点击小精灵">
+        <img id="helperImg" src="images/mascot/mascot-04.png" alt="小精灵助手">
+      </button>
+    </div>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  </main>
+
+  <script>
+    const screens = document.querySelectorAll(".screen");
+    const navItems = document.querySelectorAll(".nav-item");
+    const toast = document.getElementById("toast");
+    const phone = document.querySelector(".phone");
+    const helper = document.getElementById("helper");
+    const helperButton = document.getElementById("helperButton");
+    const helperImg = document.getElementById("helperImg");
+    const helperBubble = document.getElementById("helperBubble");
+    const datePicker = document.getElementById("datePicker");
+    const calendarTrigger = document.getElementById("calendarTrigger");
+    const calendarTitleText = document.getElementById("calendarTitleText");
+    const yearWheel = document.getElementById("yearWheel");
+    const monthWheel = document.getElementById("monthWheel");
+    const calendarGrid = document.getElementById("calendarGrid");
+    let toastTimer = null;
+    let puzzleStep = 1;
+    let rewardReturnPage = "learn";
+    let rewardReturnNav = "learn";
+    let openMemory = [];
+    let lockMemory = false;
+    let selectedYear = 2026;
+    let selectedMonth = 6;
+    let pickerScrollTimer = null;
+    let mascotIndex = 3;
+    let helperMoved = false;
+    let helperDrag = null;
+    let helperIdleTimer = null;
+    const mascotImages = Array.from({ length: 12 }, (_, index) => `images/mascot/mascot-${String(index + 1).padStart(2, "0")}.png`);
+    const helperMessages = [
+      "今天想先认识哪一种交通工具？",
+      "点击卡片试试看，会有新的发现。",
+      "答题时先观察图片，再选择答案。",
+      "小游戏也能帮助你记住交通工具。",
+      "拖动我，我可以陪你去任何页面。"
+    ];
+    const doneDaysByMonth = {
+      "2026-6": new Set([1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20])
+    };
+
+    function goPage(pageId, navItem, navName) {
+      toggleDatePicker(false);
+      screens.forEach((screen) => screen.classList.remove("active"));
+      document.getElementById(pageId).classList.add("active");
+      if (pageId === "puzzle") {
+        resetPuzzle();
+      }
+      if (pageId === "memory") {
+        buildMemoryGame();
+      }
+
+      if (navName) {
+        navItems.forEach((item) => {
+          item.classList.toggle("active", item.dataset.nav === navName);
+        });
+      } else if (navItem) {
+        navItems.forEach((item) => item.classList.remove("active"));
+        navItem.classList.add("active");
+      }
+    }
+
+    function say(message) {
+      clearTimeout(toastTimer);
+      toast.textContent = message;
+      toast.classList.add("show");
+      toastTimer = setTimeout(() => toast.classList.remove("show"), 1800);
+    }
+
+    function wrongAnswer() {
+      say("再想一想哦，自行车是在路上行驶的。");
+    }
+
+    function correctAnswer() {
+      showReward("正确答案：", "A 路上", "learn", "learn");
+    }
+
+    function markDiff(button) {
+      button.classList.add("found");
+      showReward("找对了：", "右车少了车灯", "game", "game");
+    }
+
+    function showReward(label, answer, returnPage = "game", returnNav = "game") {
+      rewardReturnPage = returnPage;
+      rewardReturnNav = returnNav;
+      const pill = document.querySelector(".answer-pill");
+      if (pill) {
+        pill.firstChild.textContent = label || "正确答案：";
+        const answerText = pill.querySelector("span");
+        if (answerText) answerText.textContent = answer || "A 路上";
+      }
+      say("答对啦！");
+      setTimeout(() => goPage("success"), 350);
+    }
+
+    function goRewardNext() {
+      goPage(rewardReturnPage || "game", null, rewardReturnNav || "game");
+    }
+
+    function resetPuzzle() {
+      puzzleStep = 1;
+      const board = document.getElementById("puzzleBoard");
+      if (!board) return;
+      const pieces = Array.from(board.querySelectorAll(".puzzle-piece"));
+      pieces.forEach((piece) => piece.classList.remove("done"));
+      pieces
+        .sort(() => Math.random() - 0.5)
+        .forEach((piece) => board.appendChild(piece));
+    }
+
+    function placePiece(button, num) {
+      if (button.classList.contains("done")) {
+        return;
+      }
+
+      if (num === puzzleStep) {
+        button.classList.add("done");
+        puzzleStep += 1;
+        if (puzzleStep > 4) {
+          showReward("拼图完成：", "1 → 2 → 3 → 4", "game", "game");
+        } else {
+          say("很好，继续找下一块。");
+        }
+      } else {
+        say("先点数字 " + puzzleStep + " 的碎片。");
+      }
+    }
+
+    function buildMemoryGame() {
+      const board = document.getElementById("memoryBoard");
+      const cards = ["car", "car", "bike", "bike", "fire_truck", "fire_truck", "highspeed", "highspeed", "bus", "bus", "ship", "ship"];
+      board.innerHTML = "";
+      cards.forEach((iconName, index) => {
+        const card = document.createElement("button");
+        card.type = "button";
+        card.className = "memory-card";
+        card.innerHTML = `<img src="images/icons/${iconName}.png" alt="">`;
+        card.dataset.icon = iconName;
+        card.dataset.index = index;
+        card.addEventListener("click", () => flipMemory(card));
+        board.appendChild(card);
+      });
+    }
+
+    function flipMemory(card) {
+      if (lockMemory || card.classList.contains("open") || card.classList.contains("matched")) {
+        return;
+      }
+
+      card.classList.add("open");
+      openMemory.push(card);
+
+      if (openMemory.length === 2) {
+        lockMemory = true;
+        const [first, second] = openMemory;
+        if (first.dataset.icon === second.dataset.icon) {
+          first.classList.add("matched");
+          second.classList.add("matched");
+          openMemory = [];
+          lockMemory = false;
+          say("配对成功！");
+          if (document.querySelectorAll(".memory-card.matched").length === document.querySelectorAll(".memory-card").length) {
+            showReward("配对完成：", "全部找对", "game", "game");
+          }
+        } else {
+          setTimeout(() => {
+            first.classList.remove("open");
+            second.classList.remove("open");
+            openMemory = [];
+            lockMemory = false;
+          }, 650);
+        }
+      }
+    }
+
+    function soundPick(isRight) {
+      if (isRight) {
+        showReward("正确答案：", "自行车", "game", "game");
+      } else {
+        say("再听一听，叮铃铃更像自行车铃声。");
+      }
+    }
+
+    function toggleDatePicker(force) {
+      const shouldShow = typeof force === "boolean" ? force : !datePicker.classList.contains("show");
+      datePicker.classList.toggle("show", shouldShow);
+      calendarTrigger.classList.toggle("open", shouldShow);
+      if (shouldShow) {
+        renderPicker();
+        setTimeout(scrollPickerToSelected, 0);
+      }
+    }
+
+    function renderPicker() {
+      const years = Array.from({ length: 9 }, (_, index) => selectedYear - 4 + index);
+      const months = Array.from({ length: 12 }, (_, index) => index + 1);
+      yearWheel.innerHTML = years.map((year, index) => {
+        const state = year === selectedYear ? "selected" : index === 0 || index === years.length - 1 ? "faded" : "";
+        return `<button class="picker-option ${state}" type="button" data-value="${year}" onclick="selectYear(${year}, true)">${year}年</button>`;
+      }).join("");
+      monthWheel.innerHTML = months.map((month, index) => {
+        const state = month === selectedMonth ? "selected" : index === 0 || index === months.length - 1 ? "faded" : "";
+        return `<button class="picker-option ${state}" type="button" data-value="${month}" onclick="selectMonth(${month}, true)">${month}月</button>`;
+      }).join("");
+      bindPickerScroll();
+    }
+
+    function selectYear(year, shouldCenter) {
+      selectedYear = year;
+      updateCalendar();
+      updatePickerSelection();
+      if (shouldCenter) centerSelectedOption(yearWheel);
+    }
+
+    function selectMonth(month, shouldCenter) {
+      selectedMonth = month;
+      updateCalendar();
+      updatePickerSelection();
+      if (shouldCenter) {
+        centerSelectedOption(monthWheel);
+        toggleDatePicker(false);
+      }
+    }
+
+    function updateCalendar() {
+      calendarTitleText.textContent = `${selectedYear}年 ${selectedMonth}月`;
+
+      const first = new Date(selectedYear, selectedMonth - 1, 1);
+      const startDay = first.getDay();
+      const monthDays = new Date(selectedYear, selectedMonth, 0).getDate();
+      const prevMonthDays = new Date(selectedYear, selectedMonth - 1, 0).getDate();
+      const doneDays = doneDaysByMonth[`${selectedYear}-${selectedMonth}`] || new Set();
+      const cells = [];
+
+      for (let i = 0; i < 35; i += 1) {
+        const dayNum = i - startDay + 1;
+        let label = dayNum;
+        let className = "day";
+        if (dayNum <= 0) {
+          label = prevMonthDays + dayNum;
+        } else if (dayNum > monthDays) {
+          label = dayNum - monthDays;
+        } else {
+          if (doneDays.has(dayNum)) className += " done";
+          if (selectedYear === 2026 && selectedMonth === 6 && dayNum === 22) className += " today";
+        }
+        cells.push(`<span class="${className}">${label}</span>`);
+      }
+      calendarGrid.innerHTML = cells.join("");
+    }
+
+    function bindPickerScroll() {
+      yearWheel.onscroll = () => pickClosestOnScroll(yearWheel, "year");
+      monthWheel.onscroll = () => pickClosestOnScroll(monthWheel, "month");
+    }
+
+    function pickClosestOnScroll(wheel, type) {
+      clearTimeout(pickerScrollTimer);
+      pickerScrollTimer = setTimeout(() => {
+        const option = closestPickerOption(wheel);
+        if (!option) return;
+        const value = Number(option.dataset.value);
+        if (type === "year" && value !== selectedYear) {
+          selectedYear = value;
+        }
+        if (type === "month" && value !== selectedMonth) {
+          selectedMonth = value;
+        }
+        updateCalendar();
+        updatePickerSelection();
+      }, 90);
+    }
+
+    function closestPickerOption(wheel) {
+      const wheelRect = wheel.getBoundingClientRect();
+      const center = wheelRect.top + wheelRect.height / 2;
+      let closest = null;
+      let distance = Infinity;
+      wheel.querySelectorAll(".picker-option").forEach((option) => {
+        const rect = option.getBoundingClientRect();
+        const optionCenter = rect.top + rect.height / 2;
+        const nextDistance = Math.abs(optionCenter - center);
+        if (nextDistance < distance) {
+          closest = option;
+          distance = nextDistance;
+        }
+      });
+      return closest;
+    }
+
+    function updatePickerSelection() {
+      yearWheel.querySelectorAll(".picker-option").forEach((option) => {
+        option.classList.toggle("selected", Number(option.dataset.value) === selectedYear);
+      });
+      monthWheel.querySelectorAll(".picker-option").forEach((option) => {
+        option.classList.toggle("selected", Number(option.dataset.value) === selectedMonth);
+      });
+    }
+
+    function centerSelectedOption(wheel) {
+      const selected = wheel.querySelector(".picker-option.selected");
+      if (selected) {
+        selected.scrollIntoView({ block: "center", behavior: "smooth" });
+      }
+    }
+
+    function scrollPickerToSelected() {
+      centerSelectedOption(yearWheel);
+      centerSelectedOption(monthWheel);
+    }
+
+    function showHelperMessage(message) {
+      clearTimeout(helperIdleTimer);
+      helperBubble.textContent = message;
+      helper.classList.remove("idle");
+      helperIdleTimer = setTimeout(() => helper.classList.add("idle"), 2600);
+    }
+
+    function nextMascot() {
+      mascotIndex = (mascotIndex + 1) % mascotImages.length;
+      helperImg.src = mascotImages[mascotIndex];
+      showHelperMessage(helperMessages[mascotIndex % helperMessages.length]);
+    }
+
+    function clamp(value, min, max) {
+      return Math.min(Math.max(value, min), max);
+    }
+
+    helperButton.addEventListener("pointerdown", (event) => {
+      const phoneRect = phone.getBoundingClientRect();
+      const helperRect = helper.getBoundingClientRect();
+      helperDrag = {
+        startX: event.clientX,
+        startY: event.clientY,
+        offsetX: event.clientX - helperRect.left,
+        offsetY: event.clientY - helperRect.top,
+        phoneRect
+      };
+      helperMoved = false;
+      helper.classList.add("dragging");
+      helper.style.left = `${helperRect.left - phoneRect.left}px`;
+      helper.style.top = `${helperRect.top - phoneRect.top}px`;
+      helper.style.right = "auto";
+      helper.style.bottom = "auto";
+      helperButton.setPointerCapture(event.pointerId);
+      event.preventDefault();
+    });
+
+    helperButton.addEventListener("pointermove", (event) => {
+      if (!helperDrag) {
+        return;
+      }
+
+      const dx = event.clientX - helperDrag.startX;
+      const dy = event.clientY - helperDrag.startY;
+      if (Math.abs(dx) + Math.abs(dy) > 6) {
+        helperMoved = true;
+      }
+
+      const maxLeft = helperDrag.phoneRect.width - helper.offsetWidth - 8;
+      const maxTop = helperDrag.phoneRect.height - helper.offsetHeight - 86;
+      const left = clamp(event.clientX - helperDrag.phoneRect.left - helperDrag.offsetX, 8, maxLeft);
+      const top = clamp(event.clientY - helperDrag.phoneRect.top - helperDrag.offsetY, 54, maxTop);
+      helper.style.left = `${left}px`;
+      helper.style.top = `${top}px`;
+    });
+
+    helperButton.addEventListener("pointerup", (event) => {
+      helper.classList.remove("dragging");
+      helperButton.releasePointerCapture(event.pointerId);
+      if (!helperMoved) {
+        nextMascot();
+      }
+      helperDrag = null;
+    });
+
+    updateCalendar();
+    renderPicker();
+    buildMemoryGame();
+    const initialPage = location.hash.replace("#", "");
+    const mainNavPages = { home: "home", learn: "learn", game: "game", mine: "mine" };
+    if (initialPage && document.getElementById(initialPage)) {
+      goPage(initialPage, null, mainNavPages[initialPage] || null);
+    }
+    setTimeout(() => showHelperMessage("我是小精灵，点我可以换表情，也可以拖动我。"), 600);
+  </script>
+</body>
+</html>
