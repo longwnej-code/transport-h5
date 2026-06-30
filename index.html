@@ -47,37 +47,67 @@
       min-height: 680px;
       position: relative;
       overflow: hidden;
-      border: 3px solid #27252a;
-      border-radius: 40px;
+      border: 4px solid #141519;
+      border-radius: 46px;
       background: var(--page-blue);
-      box-shadow: var(--shadow);
+      box-shadow:
+        0 0 0 2px #6f7378,
+        0 0 0 5px #d6d8da,
+        var(--shadow);
     }
 
     .phone::before {
-      content: none;
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 30;
+      pointer-events: none;
+      border-radius: 41px;
+      box-shadow: inset 0 0 0 3px rgba(0, 0, 0, 0.88);
     }
 
     .speaker {
-      display: none;
+      position: absolute;
+      top: 14px;
+      left: 50%;
+      z-index: 35;
+      width: 116px;
+      height: 29px;
+      border-radius: 999px;
+      background: #050506;
+      transform: translateX(-50%);
+      box-shadow:
+        inset 0 1px 2px rgba(255, 255, 255, 0.08),
+        0 1px 3px rgba(0, 0, 0, 0.22);
     }
 
     .camera {
-      display: none;
+      position: absolute;
+      top: 24px;
+      left: calc(50% + 39px);
+      z-index: 36;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 62% 38%, #2e45a6 0 16%, #111325 45%, #020204 100%);
+      box-shadow: 0 0 0 1px rgba(25, 30, 55, 0.9);
     }
 
     .status {
       height: 50px;
       overflow: hidden;
-      background: #f5fafc;
+      background: #eef7ff;
       position: relative;
       z-index: 2;
     }
 
     .status img {
-      width: 100%;
-      height: 100%;
+      width: 94%;
+      height: calc(100% + 2px);
       display: block;
       object-fit: cover;
+      margin: 0 auto;
+      transform: translateY(1px);
     }
 
     .app {
@@ -1017,6 +1047,11 @@
     .learn-card .icon img {
       width: 86px;
       height: 86px;
+    }
+
+    #learn .learn-card:nth-child(1) .icon img,
+    #learn .learn-card:nth-child(3) .icon img {
+      transform: translateX(-6px);
     }
 
     .learn-card p {
@@ -3001,15 +3036,15 @@
     }
 
     #road .game-card:nth-child(1) .icon::before {
-      background: #74c5f2;
+      background: #a1d6f4;
     }
 
     #road .game-card:nth-child(2) .icon::before {
-      background: #ffbe5b;
+      background: #f1cc95;
     }
 
     #road .game-card:nth-child(3) .icon::before {
-      background: #76d866;
+      background: #a9f19d;
     }
 
     #road .game-card > div:nth-child(2) {
